@@ -1,0 +1,15 @@
+.git
+.venv
+.env
+outputs/runs
+outputs/evaluation/runs
+outputs/pytest-*
+**/__pycache__
+.pytest_cache
+dist
+.research_cache
+web/node_modules
+web/dist
+outputs/editorial
+outputs/api-runs
+

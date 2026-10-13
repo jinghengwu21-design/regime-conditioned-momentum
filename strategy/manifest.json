@@ -1,0 +1,26 @@
+{
+  "strategy": "SarkazV3F",
+  "code_fingerprint": "a81d363128dea6d548be03e3da217a8f67e2f49060c2844c05c05ee54f0728f8",
+  "snapshot": "2026-10-03",
+  "files": {
+    "scripts/research/backtest_big_body_momentum_k.py": "eb01cd4174267eb8adb7ca6c4c864818a292c024dd106a243eb3ef5f991430c9",
+    "scripts/research/backtest_btc_structure_regime_long_v2_management.py": "62ad5ca393d1bffd94bcaed739767e105b44670943e1fe06dfbbd5287006c082",
+    "scripts/research/build_btc_regime_v2.py": "b655abf75d96547680c16f61c9e79832ea778ba59480eaf5830129abc99cf8d1",
+    "user_data/market_regime/__init__.py": "74dc77d188cd0237ddb127ce68ef5dc3c6ac9c7424ab35cb888bb3064454fd37",
+    "user_data/market_regime/bundle.py": "459aac0b231694042b090313d31937b66e4eea70ae217bb03b493bd516b35f60",
+    "user_data/market_regime/changepoint.py": "5f1446109b0153c66d541c12c5017e3113ed91648d0fa3aa8eea8d673584595a",
+    "user_data/market_regime/core.py": "7f62f51404d8d8b96e2eea607970bdc61440ce6abc611c0f16011fc28e2e826a",
+    "user_data/market_regime/smoothing.py": "0d6ff11875f43320b377f506fc0dd69f2b73b6fab9af6d041febe8b69ecc3b7c",
+    "user_data/market_regime/v4.py": "f8634bd41dcbbadf7386b3e49c1e9bdf485228c335c136140dc93d890f43f1ee",
+    "user_data/market_regime/vwap.py": "96181614e0a3313e95f0974a03a43a7cb747f00aa19aecefa1bac70a753d0503",
+    "user_data/market_regime/xgboost.py": "979e0a2671e0b477fa1193df3138d72ebdffb1906b5eae80d8b558c7ba39ab0c",
+    "user_data/strategies/BtcNextCloseBayesLongTrail4hV1Strategy.py": "11215ed68686c69e711ccac4ef1f22fd6904dc61201acc774ed82e7ac75e95c9",
+    "user_data/strategies/BtcNextCloseBayesLongV1Strategy.py": "fde5c6482d1f329c5815f2289fd45e2a25179b007d5cbe55de681f860321e289",
+    "user_data/strategies/Sarkaz.py": "daa613dcd93313a6db208df75ac0902c8cc9f962dab808d74899bd0c6c166b11",
+    "user_data/strategies/SarkazAddonProbes.py": "7b19aa11926066c1a18f7217386b48bb000eb36cb437cd73e49c961190a3008f",
+    "user_data/strategies/SarkazCompositeProbes.py": "030d924a7b4937c0395cb8a730c5dde403fe97b9887cfb8864f1346aae51072e",
+    "user_data/strategies/SarkazFollowthroughProbes.py": "bb040c0afc14b5b61bc1b67174d6686d65187287dda198126ac32cfe85480acb",
+    "user_data/strategies/SarkazV3.py": "16996e45880003b4198d2ae385a8c5024229e1dd7a36a16f69afe448ef5bc28b",
+    "user_data/strategies/SarkazV3F.py": "af1d256c857050894309062c785a8fde548f53efe8e1ae072fb4b23019b544ec"
+  }
+}

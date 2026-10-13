@@ -1,0 +1,30 @@
+{
+  "experiments.json": {
+    "sha256": "fea4acab3b54e29ff3f87c1112b3a5132bfd176791cb26dad9f5e4885d11d801",
+    "bytes": 3519426
+  },
+  "fills.csv": {
+    "sha256": "0620a3f4e2948eab96a4c4cdb7c771c8ed1b65c710a0ef1546e8750d7e9b0f42",
+    "bytes": 153026
+  },
+  "manifest.json": {
+    "sha256": "66b9281cdf6685585e13b1f31b8a5b7fb442f20c2a28fd3f6fb7d0895055e910",
+    "bytes": 2887
+  },
+  "report.html": {
+    "sha256": "1cf05cb36fc0b059bb3089d08cdbe55850eb5699f9938ff0c01e803a3ab00260",
+    "bytes": 5077282
+  },
+  "report.md": {
+    "sha256": "94f57103d95856daf9d5554bb61e440c9b8792417f719c27d7df18a269a1041c",
+    "bytes": 3926
+  },
+  "terminal.json": {
+    "sha256": "467224025c0ab7a5403de44bba7837c43bc27f927d39a509de346b840ba6d286",
+    "bytes": 2827055
+  },
+  "trades.csv": {
+    "sha256": "dcc450dd1e4139ca4cbeebbe23f57c0f97c8a4d9ea99fd7e63410272ee0f2e29",
+    "bytes": 121070
+  }
+}

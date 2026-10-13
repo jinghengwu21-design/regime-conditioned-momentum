@@ -1,0 +1,7 @@
+{
+  "id": "EVAL-02",
+  "name": "手续费变更",
+  "passed": true,
+  "observed": "5 → 8 bps，期末权益 17815.79 → 11034.63 USDT",
+  "run_id": "20261013T113357Z-1dd622ee"
+}

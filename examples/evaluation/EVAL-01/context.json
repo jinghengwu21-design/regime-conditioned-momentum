@@ -1,0 +1,28 @@
+{
+  "request": {
+    "question": "BTC 动量策略的历史表现有多稳健？提高交易成本后，收益和回撤如何变化？",
+    "asset": "BTC/USDT:USDT",
+    "start": "2020-01-01T00:00:00+00:00",
+    "end_exclusive": "2026-10-03T12:05:00+00:00",
+    "fee_bps": 5.0,
+    "slippage_bps": 0.0,
+    "mode": "offline",
+    "scenario": "normal"
+  },
+  "external_document": {
+    "trust": "untrusted_external",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "chars": 0,
+    "flags": [],
+    "quarantined": false,
+    "model_text": ""
+  },
+  "evidence_ids": [
+    "E-BACKTEST",
+    "E-METRICS",
+    "E-STRATEGY",
+    "E-ENGINEERING",
+    "E-CONTEXT"
+  ],
+  "prompt_version": "researcher.v2"
+}

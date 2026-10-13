@@ -1,0 +1,70 @@
+{
+  "summary": "历史账户呈现趋势获利与连续亏损交替的特征。评估重点是收益来源、已实现回撤和成交成本敏感性。[CALC-BASE]",
+  "findings": [
+    "使用冻结交易账本重建账户权益，指标与原始记录逐项绑定。[E-BACKTEST]",
+    "成本情景覆盖入场、退出和盈利加仓；固定成交路径便于对照费用变化。[CALC-COST]",
+    "市场状态、突破确认与风险表达共同构成策略研究链路。[E-STRATEGY]"
+  ],
+  "claims": [
+    {
+      "metric": "trade_count",
+      "value": 922.0,
+      "unit": "number",
+      "evidence_id": "CALC-BASE"
+    },
+    {
+      "metric": "total_return",
+      "value": 16.8157867377,
+      "unit": "ratio",
+      "evidence_id": "CALC-BASE"
+    },
+    {
+      "metric": "cagr",
+      "value": 0.5320948193909503,
+      "unit": "ratio",
+      "evidence_id": "CALC-BASE"
+    },
+    {
+      "metric": "max_drawdown",
+      "value": 0.3009061620126916,
+      "unit": "ratio",
+      "evidence_id": "CALC-BASE"
+    },
+    {
+      "metric": "daily_sharpe",
+      "value": 1.2450084106618429,
+      "unit": "number",
+      "evidence_id": "CALC-BASE"
+    },
+    {
+      "metric": "profit_factor",
+      "value": 1.4089348346545936,
+      "unit": "number",
+      "evidence_id": "CALC-BASE"
+    },
+    {
+      "metric": "win_rate",
+      "value": 0.25162689804772237,
+      "unit": "ratio",
+      "evidence_id": "CALC-BASE"
+    },
+    {
+      "metric": "final_equity",
+      "value": 17815.7867377,
+      "unit": "USDT",
+      "evidence_id": "CALC-BASE"
+    },
+    {
+      "metric": "added_fee_usdt",
+      "value": 0.0,
+      "unit": "USDT",
+      "evidence_id": "CALC-BASE"
+    }
+  ],
+  "evidence_ids": [
+    "CALC-BASE",
+    "CALC-COST",
+    "E-BACKTEST",
+    "E-STRATEGY"
+  ]
+}

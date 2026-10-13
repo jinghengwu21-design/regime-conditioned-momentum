@@ -1,0 +1,3 @@
+# Preserve bytes across checkouts: CSV, prompts, snapshots and code have hashes.
+* -text
+
