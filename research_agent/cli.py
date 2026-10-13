@@ -4,6 +4,7 @@ import argparse
 import json
 from pathlib import Path
 import shutil
+import sys
 
 from .data import ROOT
 from .models import ResearchRequest
@@ -11,6 +12,9 @@ from .workflow import run_research
 
 
 def main():
+    # JSON on stdout is UTF-8 even when Windows redirects through a legacy locale.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(description="金融研究 Agent 工作台")
     parser.add_argument("command", choices=["demo", "run", "evaluate"], nargs="?", default="demo")
     parser.add_argument("--mode", choices=["offline", "openai"], default="offline")
