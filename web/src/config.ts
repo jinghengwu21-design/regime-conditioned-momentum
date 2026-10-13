@@ -5,20 +5,30 @@ import {
   GitBranch,
   LayoutDashboard,
   ListFilter,
+  BookOpen,
+  Archive,
 } from "lucide-react";
-export const REPO = "https://github.com/jinghengwu21-design/sarkaz-research";
+export const REPO =
+  "https://github.com/jinghengwu21-design/regime-conditioned-momentum";
 export const ASSET = import.meta.env.BASE_URL + "data/";
 export const pages = [
-  { id: "overview", label: "研究总览", en: "Overview", icon: LayoutDashboard },
-  { id: "strategy", label: "策略研究", en: "Strategy", icon: GitBranch },
-  { id: "risk", label: "风险与成本", en: "Risk analytics", icon: Activity },
-  { id: "trades", label: "交易账本", en: "Trade explorer", icon: ListFilter },
+  { id: "research", label: "研究总览", en: "Research", icon: BookOpen },
+  { id: "strategy", label: "保留策略", en: "Strategy", icon: GitBranch },
+  { id: "archive", label: "研究档案", en: "Research archive", icon: Archive },
   {
-    id: "agent",
-    label: "Agent 实验室",
-    en: "Research agent",
+    id: "process",
+    label: "Agent 研究",
+    en: "Research process",
     icon: FlaskConical,
   },
+  {
+    id: "performance",
+    label: "账户表现",
+    en: "Performance",
+    icon: LayoutDashboard,
+  },
+  { id: "risk", label: "风险与成本", en: "Risk analytics", icon: Activity },
+  { id: "trades", label: "交易账本", en: "Trade explorer", icon: ListFilter },
   {
     id: "evidence",
     label: "数据与方法",

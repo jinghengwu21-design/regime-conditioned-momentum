@@ -38,7 +38,7 @@ export default function Evidence({ data }: { data: Terminal }) {
         </div>
       </div>
       <div className="two-columns evidence-columns">
-        <Panel title="数据文件" subtitle="来源文件 SHA-256 · 可独立复现">
+        <Panel title="数据文件" subtitle="研究账本与计算附件">
           <div className="file-list">
             {Object.entries(data.manifest.files).map(([name, meta]) => (
               <div key={name}>
@@ -47,8 +47,7 @@ export default function Evidence({ data }: { data: Terminal }) {
                 </span>
                 <div>
                   <strong>{name}</strong>
-                  <small>{number(meta.bytes / 1024, 1)} KB · SHA-256</small>
-                  <code title={meta.sha256}>{meta.sha256.slice(0, 28)}…</code>
+                  <small>{number(meta.bytes / 1024, 1)} KB</small>
                 </div>
                 {["trades.csv", "fills.csv"].includes(name) ? (
                   <a
@@ -112,10 +111,6 @@ export default function Evidence({ data }: { data: Terminal }) {
               <div>
                 <span>来源</span>
                 <code>{e.source}</code>
-              </div>
-              <div>
-                <span>内容指纹</span>
-                <code>{e.source_hash}</code>
               </div>
             </details>
           ))}

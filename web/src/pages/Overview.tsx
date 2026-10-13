@@ -26,7 +26,7 @@ export default function Overview({
             p.benchmark.map((r) => r.date),
             [
               {
-                name: "Sarkaz V3F",
+                name: "RCM-3F",
                 data: p.benchmark.map((r) => r.strategy),
                 color: colors.green,
                 area: true,
@@ -95,7 +95,7 @@ export default function Overview({
           data: p.base.yearly.map((y) => ({
             value: y.return,
             itemStyle: {
-              color: y.year === 2026 ? colors.amber : "#68b59f",
+              color: y.year === 2026 ? colors.amber : "#6f9680",
               borderRadius: [2, 2, 0, 0],
             },
           })),
@@ -103,7 +103,7 @@ export default function Overview({
             show: true,
             position: "top",
             fontSize: 10,
-            color: "#aebbb8",
+            color: "#718267",
             formatter: (a: { value: number }) => percent(a.value, 1),
           },
         },
@@ -179,7 +179,7 @@ export default function Overview({
           <div className="chart-legend">
             <span>
               <i style={{ background: colors.green }} />
-              Sarkaz V3F
+              RCM-3F
             </span>
             {comparison && (
               <span>
@@ -224,7 +224,7 @@ export default function Overview({
                 <GitBranch size={25} />
               </span>
               <div>
-                Sarkaz V3F<small>结构突破与动量延续</small>
+                RCM-3F<small>结构突破与动量延续</small>
               </div>
             </div>
             <dl className="key-values">
@@ -316,7 +316,7 @@ export default function Overview({
                                   r.return >= 0
                                     ? `rgba(98,181,151,${0.08 + Math.min(Math.abs(r.return), 0.6) * 0.65})`
                                     : `rgba(217,125,124,${0.1 + Math.min(Math.abs(r.return), 0.4) * 0.8})`,
-                                color: r.return >= 0 ? "#a4d9c6" : "#edafaa",
+                                color: r.return >= 0 ? "#386b4b" : "#975545",
                               }}
                             >
                               {(r.return * 100).toFixed(1)}

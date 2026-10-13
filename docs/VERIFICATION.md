@@ -1,6 +1,6 @@
 # Verification
 
-Recorded at 2026-10-13T11:55:46.117289+00:00.
+Recorded at 2026-10-13T13:34:00.689571+00:00.
 
 | Check | Result | Evidence |
 |---|---|---|
@@ -8,13 +8,13 @@ Recorded at 2026-10-13T11:55:46.117289+00:00.
 | Browser calculation contracts | 3 passed | `outputs/frontend-tests.xml` |
 | Research behavior | 6 / 6 passed | `outputs/evaluation/evaluation.json` |
 | Locked environment | Python 3.14.5, 49 packages, dependency check passed | `requirements.lock` |
-| Frozen strategy | 19 original source files match SHA-256 manifest | `scripts/verify_strategy.py` |
-| Browser interaction | Scope, benchmark, filters, exports, traces and local execution | `outputs/browser-validation.json` |
+| Frozen strategy | 19 archived Python sources parse successfully | `scripts/verify_strategy.py` |
+| Browser interaction | Research archive, comparison, research loop, financial analytics and local execution | `outputs/browser-validation.json` |
 | Frontend | TypeScript and Vite production build passed; npm audit: zero known findings at verification | `web/package-lock.json` |
 
 ## Numeric reproduction
 
-Sample `20261013T113351Z-db513dc7` reproduces 922 trades, CAGR 53.2094819391%, daily account Sharpe 1.2450084107, realized maximum drawdown 30.0906162013%, and final equity 17,815.7867377 USDT.
+Sample `20261013T130911Z-8ba9c6ef` reproduces 922 trades, CAGR 53.2094819391%, daily account Sharpe 1.2450084107, realized maximum drawdown 30.0906162013%, and final equity 17,815.7867377 USDT.
 
 ## Behavioral observations
 
@@ -29,7 +29,7 @@ Sample `20261013T113351Z-db513dc7` reproduces 922 trades, CAGR 53.2094819391%, d
 
 The public experiment records use the deterministic LangGraph workflow. Provider tests use the real OpenAI SDK with simulated HTTP responses to exercise function calls, correction, denied tools and loop limits. These tests do not measure live-model accuracy or attack success rates.
 
-The 390 × 844 mobile layout was checked across all six workspaces; no document-level horizontal overflow was observed. Wide financial tables scroll within their panels. Desktop interaction was checked in Edge. Screenshots are under `docs/screenshots/`.
+The 390 × 844 mobile layout was checked across all eight workspaces; no document-level horizontal overflow was observed. Wide financial tables scroll within their panels. Desktop interaction was checked in Edge. Screenshots are under `docs/screenshots/`.
 
 The Windows launcher completed dependency installation and the production frontend build. GitHub Actions runs clean Linux and Windows Python jobs and a Node frontend job; their status is available on the repository's Actions page. Upstream LangGraph emits deprecation warnings under Python 3.14. Docker configuration is provided but is not part of this local verification.
 

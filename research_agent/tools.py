@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
-import hashlib
 import json
 from pathlib import Path
 from time import perf_counter
@@ -63,7 +62,7 @@ class ToolRunner:
         self.costs: list[dict] = []
 
     def event(self, node: str, action: str, inputs: dict, output: dict, status: str = "ok", elapsed_ms: float = 0) -> dict:
-        record = {"sequence": len(self.events) + 1, "time_utc": datetime.now(timezone.utc).isoformat(), "node": node, "action": action, "status": status, "elapsed_ms": round(elapsed_ms, 2), "input": inputs, "output": output, "output_sha256": hashlib.sha256(json.dumps(output, ensure_ascii=False, sort_keys=True, allow_nan=False).encode()).hexdigest()}
+        record = {"sequence": len(self.events) + 1, "time_utc": datetime.now(timezone.utc).isoformat(), "node": node, "action": action, "status": status, "elapsed_ms": round(elapsed_ms, 2), "input": inputs, "output": output}
         self.events.append(record)
         with (self.run_dir / "trace.jsonl").open("a", encoding="utf-8") as file:
             file.write(json.dumps(record, ensure_ascii=False, allow_nan=False) + "\n")
@@ -96,7 +95,7 @@ class ToolRunner:
             return {"evidence_id": "E-MARKET", **{k: v for k, v in self.market.items() if k != "bars"}, "recent_bars": self.market["bars"][-5:]}
         if name == "read_backtest":
             m = store.manifest
-            return {"evidence_id": "E-BACKTEST", **{k: m[k] for k in ["dataset_id", "strategy", "engine", "engine_timeframe", "start", "end_exclusive", "metric_start", "metric_end", "base_fee_bps_per_side", "funding", "equity_basis", "code_fingerprint"]}, "source_archive_sha256": m["original_archive"]["sha256"], "ledger_trades": len(store.trades)}
+            return {"evidence_id": "E-BACKTEST", **{k: m[k] for k in ["dataset_id", "strategy", "engine", "engine_timeframe", "start", "end_exclusive", "metric_start", "metric_end", "base_fee_bps_per_side", "funding", "equity_basis"]}, "ledger_trades": len(store.trades)}
         if name == "calculate_metrics":
             self.base = calculate(store, req.start, req.end_exclusive, **args)
             return {"evidence_id": "CALC-BASE", **{k: v for k, v in self.base.items() if k not in ("curve", "yearly")}}

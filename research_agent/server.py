@@ -33,7 +33,7 @@ class Handler(SimpleHTTPRequestHandler):
 
     def do_GET(self):
         if self.path == "/api/status":
-            return self.json_response(200, {"service": "sarkaz-research", "version": "2.0.0",
+            return self.json_response(200, {"service": "rcm-research", "version": "3.0.0",
                                            "model_configured": bool(os.getenv("OPENAI_API_KEY") and os.getenv("OPENAI_MODEL"))})
         if self.path.startswith("/api/"):
             return self.json_response(404, {"error": "Unknown endpoint"})
@@ -77,7 +77,7 @@ def main():
     args = parser.parse_args()
     if not (ROOT / "web/dist/index.html").exists():
         raise SystemExit("Build the terminal first: cd web && npm ci && npm run build")
-    print(f"SARKAZ Research Terminal · http://127.0.0.1:{args.port}", flush=True)
+    print(f"RCM Research · http://127.0.0.1:{args.port}", flush=True)
     with ThreadingHTTPServer((args.host, args.port), Handler) as server:
         server.serve_forever()
 

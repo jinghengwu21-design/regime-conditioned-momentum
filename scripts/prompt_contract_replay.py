@@ -4,7 +4,6 @@ This is a local contract replay, not a model-quality A/B experiment.
 """
 from datetime import datetime, timezone
 import difflib
-import hashlib
 import json
 from pathlib import Path
 import sys
@@ -26,6 +25,6 @@ before = (ROOT / "prompts/researcher.v1.txt").read_text(encoding="utf-8")
 after = (ROOT / "prompts/researcher.v2.txt").read_text(encoding="utf-8")
 output = ROOT / "outputs/prompt_contract_replay.json"
 output.parent.mkdir(exist_ok=True)
-output.write_text(json.dumps({"recorded_at_utc": datetime.now(timezone.utc).isoformat(), "kind": "local_contract_replay_not_model_ab", "fixture": {"metric": "trade_count", "value": 999}, "v1_free_prose": {"text": "该策略完成 999 笔交易。", "numeric_validation": "absent"}, "v2_claim_review": result, "prompt_hashes": {"v1": hashlib.sha256(before.encode()).hexdigest(), "v2": hashlib.sha256(after.encode()).hexdigest()}, "diff": "".join(difflib.unified_diff(before.splitlines(True), after.splitlines(True), fromfile="researcher.v1", tofile="researcher.v2"))}, ensure_ascii=False, indent=2), encoding="utf-8")
+output.write_text(json.dumps({"recorded_at_utc": datetime.now(timezone.utc).isoformat(), "kind": "local_contract_replay_not_model_ab", "fixture": {"metric": "trade_count", "value": 999}, "v1_free_prose": {"text": "该策略完成 999 笔交易。", "numeric_validation": "absent"}, "v2_claim_review": result, "diff": "".join(difflib.unified_diff(before.splitlines(True), after.splitlines(True), fromfile="researcher.v1", tofile="researcher.v2"))}, ensure_ascii=False, indent=2), encoding="utf-8")
 print(output)
 

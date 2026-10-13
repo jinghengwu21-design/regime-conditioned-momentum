@@ -1,58 +1,56 @@
 {
+  "chronicle.json": {
+    "bytes": 48414
+  },
   "context.json": {
-    "sha256": "fc36311233d2ab8370f0ca3ce1b9601800b23625adf844fe8a0918eb2b1cdfba",
-    "bytes": 763
+    "bytes": 680
+  },
+  "decisions.csv": {
+    "bytes": 22835
   },
   "draft.original.json": {
-    "sha256": "51e07c7fa64958e991a3d2058909779ac622ff53095b9fbe8f186da178f527e0",
     "bytes": 1855
   },
   "experiments.json": {
-    "sha256": "fea4acab3b54e29ff3f87c1112b3a5132bfd176791cb26dad9f5e4885d11d801",
-    "bytes": 3519426
+    "bytes": 3498819
   },
   "fills.csv": {
-    "sha256": "0620a3f4e2948eab96a4c4cdb7c771c8ed1b65c710a0ef1546e8750d7e9b0f42",
     "bytes": 153026
   },
   "manifest.json": {
-    "sha256": "66b9281cdf6685585e13b1f31b8a5b7fb442f20c2a28fd3f6fb7d0895055e910",
-    "bytes": 2887
+    "bytes": 1930
   },
   "market_daily.csv": {
-    "sha256": "3c45f68599d67956f46f69b585c1f1f25fb13fbeb08a670a6284d3ac2d583a52",
     "bytes": 174200
   },
   "reference_metrics.json": {
-    "sha256": "e48e4d8686f319febe9e52959335bbb68bcc4c7275f9d7be1e1863a1e3f3e6f5",
     "bytes": 326
   },
   "report.html": {
-    "sha256": "1cf05cb36fc0b059bb3089d08cdbe55850eb5699f9938ff0c01e803a3ab00260",
-    "bytes": 5077282
+    "bytes": 5076917
   },
   "report.md": {
-    "sha256": "94f57103d95856daf9d5554bb61e440c9b8792417f719c27d7df18a269a1041c",
-    "bytes": 3926
+    "bytes": 3881
   },
   "request.json": {
-    "sha256": "49b399acb54a31e4044a9da51312f87a04d3f78dfe255fff0df30ef05ab0540a",
     "bytes": 355
   },
+  "research-history.md": {
+    "bytes": 47959
+  },
   "result.json": {
-    "sha256": "e12342e2a8196ca5fe17cc487a6a8633d7028145978ca04bdb67006f6720573b",
-    "bytes": 1151128
+    "bytes": 1146568
+  },
+  "source-catalog.json": {
+    "bytes": 383218
   },
   "terminal.json": {
-    "sha256": "467224025c0ab7a5403de44bba7837c43bc27f927d39a509de346b840ba6d286",
-    "bytes": 2827055
+    "bytes": 2825904
   },
   "trace.jsonl": {
-    "sha256": "53cbbcbfe18d3dba9ddafcbd29988bafc10e0a88d7b26a34dacff21cf65236f0",
-    "bytes": 12511
+    "bytes": 11081
   },
   "trades.csv": {
-    "sha256": "dcc450dd1e4139ca4cbeebbe23f57c0f97c8a4d9ea99fd7e63410272ee0f2e29",
     "bytes": 121070
   }
 }

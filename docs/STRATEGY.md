@@ -1,44 +1,74 @@
-# Sarkaz V3F
+# RCM-3F：市场状态条件动量
 
-Sarkaz V3F is a frozen BTC perpetual momentum strategy on 5-minute bars. It is long-only. A continuous native Freqtrade account provides the research ledger: 922 trades and 2,247 entry, add and exit fills.
+RCM-3F 是 BTC 永续 5 分钟做多策略。它把价格冲击、异常参与、市场位置和风险配置分成不同层：事件决定何时值得观察，结构与状态限定背景，下一收盘提供接受信息，有限权重表达暴露，盈利加仓与结构退出管理右尾。
 
-## Trading hypothesis
+## 实际规则
 
-Large directional candles accompanied by unusual range and participation can indicate a breakout that persists beyond the trigger bar. The system requires a compatible market regime and a completed confirmation candle before taking exposure. Position sizing and exit rules express the risk of that same signal.
-
-| Stage | Rule | Source |
+| 层 | 规格 | 代码位置 |
 |---|---|---|
-| Trigger | Signal K body share at least 0.70; rolling range filter at the 0.90 quantile; extreme-volume threshold 4.0 | `BtcNextCloseBayesLongV1Strategy.populate_indicators` |
-| Regime and structure | Accept selected uptrend/upper-value regimes, then apply structure candidates | Base strategy and `market_regime` |
-| Confirmation | Confirm using the next completed candle; fill at the next available native execution point | Base strategy and `SarkazFollowthroughProbes` |
-| Exposure | Finite relative weight table; V3F multiplies the inherited leverage budget by 1.50, capped by the exchange limit | `SarkazCompositeProbes`, `SarkazV3F.leverage` |
-| Add | One add after a completed candle closes at or above entry + 1R | `SarkazWGLaunchAdd25Close1RV1` |
-| Exit | Signal-low initial stop; original-entry breakeven reference; prior four-hour-low trail; maximum 24-hour holding period | OriginalBE class and Trail4h base |
+| Signal K | 阳线实体／振幅 ≥ 0.70；振幅超过此前三日 q90 | `scripts/research/backtest_big_body_momentum_k.py` |
+| 参与度 | 成交量 z-score > 4 | `BtcNextCloseBayesLongV1Strategy.populate_indicators` |
+| 结构 | 2h 高点突破，或 24h VWAP 支撑回测后收复 1h 高点；同拍卖段抑制重复事件 | `scripts/research/backtest_btc_structure_regime_long_v2_management.py` |
+| 状态 | Regime V2 的已知 session、24h VWAP 与价值接受关系，允许的三类多头背景 | `scripts/research/build_btc_regime_v2.py` |
+| 时点 | `native_candidate_core.shift(1)`：下一根完整 K 后形成入场时点 | `BtcNextCloseBayesLongV1Strategy.py` |
+| 暴露 | 确认强弱 × 风险标签 × Fresh，使用五档有限权重 | `SarkazCompositeProbes.py` |
+| 加仓 | 已完成 K 收盘达到原始 +1R 后，单次约 25% 初始单位 | `SarkazAddonProbes.py` |
+| 保本与退出 | 保留原始入场价；初始 Signal K 低点、前 4h 低点跟踪、最长 24h | `SarkazV3.py` 与父类 |
+| 风险预算 | 继承全部交易规则，最终杠杆乘 1.50 并受交易所上限限制 | `SarkazV3F.py` |
 
-Here R is the initial absolute price risk. Native execution confirms before entering, so the next candle's closing price is not available at that candle's open.
+代码文件位于 [strategy/frozen/](../strategy/frozen/)。历史父类名中的 Bayes 来自早期研究；最终 `native_candidate_core` 使用结构、允许状态与异常量，没有动态条件概率门槛。下一收盘相对 Signal K 收盘的强弱用于分档，弱确认仍可交易。
 
-## Source identity
+## 有限权重与资本预留
 
-The [frozen source tree](../strategy/frozen/) contains the 19 files registered in the original run protocol. Every byte matches the archived source SHA-256 recorded in [strategy/manifest.json](../strategy/manifest.json). Its combined research fingerprint is:
+| 条件 | 基准 stake 倍率 | 基准 leverage 倍率 |
+|---|---:|---:|
+| 弱确认、低风险 | 0.75 | 1.00 |
+| 弱确认、风险标签 | 0.50 | 1.00 |
+| 强确认、风险标签 | 0.75 | 1.25 |
+| 强确认、低风险 | 1.00 | 1.50 |
+| Fresh 强确认、低风险 | 1.00 | 1.75 |
 
-```text
-a81d363128dea6d548be03e3da217a8f67e2f49060c2844c05c05ee54f0728f8
-```
+Fresh 表示前一个合格信号距今超过 24h。风险标签包括周末 UTC、ClimaxBody、压缩波动等。首仓保证金 ×0.80、杠杆 ×1.25 为加仓留出资本；RCM-3F 再把杠杆 ×1.50。忽略交易所上限时，四个杠杆层级为 1.875、2.34375、2.8125、3.28125。单笔实际名义金额还受账户权益、stake 档位和原生资金约束影响。
 
-The inheritance chain is retained so that the result can be inspected against the actual research implementation. The terminal is independent of that execution engine: `research_agent/analytics.py` reconstructs analysis from the frozen ledger, while `research_agent/audit.py` independently verifies the account metrics and fill costs.
+OriginalBE 锚定首仓价格。它保存持仓管理基准，不能直接解释为含全部加仓、手续费和资金费后的整单净保本。
 
-## Research observations
+## 为什么保留这些方法
 
-The archived full period produces CAGR 53.21%, daily account Sharpe 1.245 and maximum realized drawdown 30.09%. Trade win rate is 25.16%, with an average winning-to-losing-trade amount ratio of approximately 4.19. This makes payoff asymmetry and contribution concentration central research questions.
+| 机制假设 | 对应检验 | 研究解释 |
+|---|---|---|
+| 异常参与比普通上涨具有更强延续 | 原成交量分桶；季节成交量、TFI 替代 | 同根 TFI 几乎全部为正，重复方向信息；异常量回答参与是否集中 |
+| 冲击发生的位置影响后续接受 | 删除整组入场 context；路径效率、Jump Model、OBV 替代 | 更多交易未换来一致质量提升，保留规则状态 |
+| 后续收盘强弱适合表达风险差异 | 确认分组、硬过滤与权重研究 | clean low-confirm 仍有重要收益，保留低确认机会 |
+| 趋势已经展开后增加仓位 | +1R 加仓、资本预留、原价保本成组对照 | 改善趋势暴露；更大或第二次加仓没有形成相同的历史取舍 |
+| 少数趋势需要持有空间 | POC／VAL、no-launch、提前失败退出 | 提前退出会截断右尾，保留结构跟踪与时间上限 |
 
-At 8 bps per side, fixed-path terminal equity declines from 17,815.79 to 11,034.63 USDT. The comparison adjusts every fill's notional cost; it does not resize trades after equity changes.
+机制是经济解释。原生删除／修改对照检验改变规则后的账户效果；交易分组只描述观察差异。单一历史市场路径的回测并不识别市场参与者的因果行为。
 
-2026 through the archive boundary contributes approximately 0.55% account return. The terminal makes that period directly selectable so that full-period performance does not hide the recent plateau.
+### 加仓与原入场价对照
 
-## Sample interpretation
+开发期同为 365 笔，WG 与加仓／OriginalBE 组合的收益由 141.31% 提升至 169.20%，净利润增量 278.87 USDT。全部平仓时刻一致，仅一笔退出标签不同；161 笔加仓交易贡献 +457.14 USDT 差额，204 笔未加仓交易贡献 −178.27 USDT。这里同时变化了资本预留、加仓和保本处理，并有账户复利效应。[R14](../research/notes/R14.md)
 
-The continuous account starts with 1,000 USDT on the 2020 calendar boundary and does not reset across years. Native effective scoring runs from 2020-01-04 11:20 to 2026-10-03 12:00 UTC. The export boundary is 12:05, exclusive.
+### 删除市场状态对照
 
-2024 onward includes development observations. The full history is a historical research replay, rather than a wholly out-of-sample experiment. The 2020–2023 prefix matches 510 native trades in the earlier archive. Attribution by exit type or add participation is descriptive; it is not a causal ablation.
+训练期删除整个入场 context，交易从 499 增至 566，收益 341.71% → 364.65%，PF 1.412 → 1.290，回撤 30.02% → 32.83%。只在 3 个半年度改善，支持继续保留 Regime V2。[R26](../research/notes/R26.md)
 
-Maximum drawdown is measured on closed-trade equity. Fees are 5 bps per side and funding is excluded. Raw 5-minute market history and live account configurations are outside this repository; the bundled ledger and daily market attachment reproduce the terminal's analytics.
+## RCM-3 与 RCM-3F
+
+| 窗口 | 版本 | 笔数 | 收益 | CAGR | PF | 最大已实现回撤 |
+|---|---|---:|---:|---:|---:|---:|
+| 2024–2026.06 开发 | RCM-3 | 365 | 169.20% | 49.29% | 1.627 | 13.29% |
+| 2024–2026.06 开发 | RCM-3F | 365 | 317.66% | 78.33% | 1.557 | 19.38% |
+| 2020–2023 历史 | RCM-3 | 510 | 193.81% | 31.00% | 1.450 | 20.95% |
+| 2020–2023 历史 | RCM-3F | 510 | 358.45% | 46.44% | 1.413 | 30.09% |
+
+1.50 倍率由开发段风险预算确定，历史结果随后检验。3F 的变化是同一规则的风险放大；约 20% 的开发回撤没有保持为历史回撤水平。源报告与节点：[R16](../research/notes/R16.md)。
+
+## 完整历史与近期状态
+
+连续账户 2020-01-04 11:20 至 2026-10-03 12:00 UTC：922 笔、403 笔加仓、初始 1,000 USDT、期末 17,815.79 USDT、CAGR 53.21%、PF 1.409、胜率 25.16%、最大已实现回撤 30.09%。2026 年截至归档时点，105 笔、约 +0.55%、PF 约 1.007。
+
+全部指标为历史回测、单边 5 bps、资金费未计、平仓权益。成本页面按固定成交路径追加费用，不重算策略决策与仓位。持仓浮亏需要原生逐时权益另行观察。
+
+早期 bootstrap 使用当时的 875 笔与不同截止日期；其“前十大赢家约 90.75%”不能移作 922 笔账本的指标。当前终端按所选窗口重新计算集中度。
+
+[研究全史](RESEARCH_HISTORY.md) · [Agent 研究方法](AGENT_RESEARCH.md) · [数据口径](../data/DATA_CARD.md)

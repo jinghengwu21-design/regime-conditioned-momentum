@@ -372,10 +372,6 @@ export default function Agent({
                         2,
                       )}
                     </pre>
-                    <div className="trace-hash">
-                      SHA-256{" "}
-                      <code>{selected?.output_sha256.slice(0, 24)}…</code>
-                    </div>
                   </div>
                 </div>
               </Panel>

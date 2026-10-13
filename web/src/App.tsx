@@ -2,49 +2,72 @@ import { useEffect, useState } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
-  ChevronDown,
-  ChevronRight,
-  CircleHelp,
-  FileText,
   Github,
-  ListFilter,
   LoaderCircle,
   Search,
-  ShieldCheck,
+  FileText,
 } from "lucide-react";
-import { Tag, Modal } from "./components/ui";
+import { Modal } from "./components/ui";
 import { date, number } from "./finance";
 import type { Terminal } from "./types";
+import type { Chronicle } from "./research";
+import { matchCase } from "./research";
 import { ASSET, REPO, pages, periods } from "./config";
 import Overview from "./pages/Overview";
+import Research from "./pages/Research";
+import Archive from "./pages/Archive";
+import Process from "./pages/Process";
 import Strategy from "./pages/Strategy";
 import Risk from "./pages/Risk";
 import Trades from "./pages/Trades";
-import Agent from "./pages/Agent";
 import Methodology from "./pages/Methodology";
 import Evidence from "./pages/Evidence";
+
+function route() {
+  const id = location.hash.slice(1).split("/")[0];
+  return id === "overview"
+    ? "research"
+    : id === "agent"
+      ? "process"
+      : pages.some((p) => p.id === id)
+        ? id
+        : "research";
+}
+const descriptions: Record<string, string> = {
+  strategy: "从实际规则、研究对照与收益结构，解释最终保留的条件动量策略。",
+  archive: "研究问题、失败原因与保留依据，按开发过程组织的决策档案。",
+  process: "研究讨论、因子探索、原生回测与实验记忆如何形成一个循环。",
+  performance: "连续账户、市场基准、回撤路径与逐月收益。",
+  risk: "交易成本、收益集中度与回撤恢复，观察同一策略的不同压力情景。",
+  trades: "从账户结果下钻到每一笔入场、加仓与退出。",
+  evidence: "研究数据、计算口径、代码来源与可复现分析。",
+};
 export default function App() {
   const [data, setData] = useState<Terminal>();
+  const [research, setResearch] = useState<Chronicle>();
   const [loadError, setLoadError] = useState("");
-  const [page, setPage] = useState(
-    pages.some((p) => p.id === location.hash.slice(1))
-      ? location.hash.slice(1)
-      : "overview",
-  );
+  const [page, setPage] = useState(route);
   const [period, setPeriod] = useState("all");
-  const [searchOpen, setSearchOpen] = useState(false),
-    [query, setQuery] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [query, setQuery] = useState("");
   const [methodOpen, setMethodOpen] = useState(false);
-  const [tradeQuery, setTradeQuery] = useState(""),
-    [tradeMonth, setTradeMonth] = useState("");
+  const [tradeQuery, setTradeQuery] = useState("");
+  const [tradeMonth, setTradeMonth] = useState("");
   const [api, setApi] = useState<{ model_configured: boolean } | null>(null);
   useEffect(() => {
-    fetch(ASSET + "terminal.json")
-      .then((r) => {
-        if (!r.ok) throw Error("研究数据暂时不可用");
-        return r.json();
+    async function read<T>(name: string): Promise<T> {
+      const r = await fetch(ASSET + name);
+      if (!r.ok) throw new Error("研究数据暂时不可用");
+      return r.json();
+    }
+    Promise.all([
+      read<Terminal>("terminal.json"),
+      read<Chronicle>("chronicle.json"),
+    ])
+      .then(([t, c]) => {
+        setData(t);
+        setResearch(c);
       })
-      .then(setData)
       .catch((e) => setLoadError(e.message));
     if (["localhost", "127.0.0.1"].includes(location.hostname))
       fetch("/api/status")
@@ -57,10 +80,7 @@ export default function App() {
         setSearchOpen((v) => !v);
       }
     };
-    const onHash = () => {
-      const id = location.hash.slice(1);
-      if (pages.some((p) => p.id === id)) setPage(id);
-    };
+    const onHash = () => setPage(route());
     window.addEventListener("keydown", onKey);
     window.addEventListener("hashchange", onHash);
     return () => {
@@ -68,113 +88,80 @@ export default function App() {
       window.removeEventListener("hashchange", onHash);
     };
   }, []);
+  useEffect(() => {
+    document.title = `RCM · ${pages.find((p) => p.id === page)?.label || "Regime-Conditioned Momentum"}`;
+  }, [page]);
   const go = (id: string) => {
-    setPage(id);
     location.hash = id;
+    setPage(id.split("/")[0]);
     window.scrollTo({ top: 0 });
   };
-  if (!data)
+  if (!data || !research)
     return (
       <div className="loading-screen">
-        <div className="brand-mark">S</div>
-        <h1>
-          SARKAZ <span>RESEARCH</span>
-        </h1>
+        <div className="wordmark">
+          RCM<span>RESEARCH</span>
+        </div>
         {loadError ? (
           <>
             <p>{loadError}</p>
-            <button onClick={() => location.reload()}>重新加载</button>
+            <button className="button" onClick={() => location.reload()}>
+              重新加载
+            </button>
           </>
         ) : (
           <>
             <LoaderCircle className="spin" />
-            <p>读取研究账本与数据指纹</p>
+            <p>读取研究档案与交易账本</p>
           </>
         )}
       </div>
     );
-  const current = data.periods[period],
-    selectedPage = pages.find((p) => p.id === page)!;
+  const selectedPage = pages.find((p) => p.id === page)!;
+  const current = data.periods[period];
+  const financial = ["performance", "risk", "trades"].includes(page);
   const monthlyOpen = (month: string) => {
     setTradeMonth(month);
     setTradeQuery("");
     go("trades");
   };
+  const foundCases = query
+    ? research.cases.filter((c) => matchCase(c, query)).slice(0, 6)
+    : [];
+  const foundPages = pages.filter(
+    (p) =>
+      !query || (p.label + p.en).toLowerCase().includes(query.toLowerCase()),
+  );
+  const foundTrades = query
+    ? current.trades
+        .filter((t) =>
+          `${t.id} ${t.closed}`.toLowerCase().includes(query.toLowerCase()),
+        )
+        .slice(0, 4)
+    : [];
   return (
     <div className="app-shell">
-      <a className="skip-link" href="#main-content">
+      <a
+        className="skip-link"
+        href="#main-content"
+        onClick={(event) => {
+          event.preventDefault();
+          document.getElementById("main-content")?.focus();
+        }}
+      >
         跳至研究内容
       </a>
-      <aside className="sidebar">
-        <a href="#overview" className="brand" onClick={() => go("overview")}>
-          <svg viewBox="0 0 32 32" aria-hidden="true">
-            <path d="M4 23 16 4h11L15 23ZM5 28h22" />
-          </svg>
-          <div>
-            SARKAZ<span>RESEARCH TERMINAL</span>
-          </div>
-        </a>
-        <div className="workspace-switch">
-          <span className="workspace-avatar">S</span>
-          <div>
-            量化研究工作区<small>Strategy intelligence</small>
-          </div>
-          <ChevronDown size={13} />
-        </div>
-        <div className="nav-label">WORKSPACE</div>
-        <nav aria-label="主导航">
-          {pages.slice(0, 4).map((p) => (
-            <button
-              key={p.id}
-              className={page === p.id ? "nav-item active" : "nav-item"}
-              onClick={() => go(p.id)}
-              aria-current={page === p.id ? "page" : undefined}
-            >
-              <p.icon size={17} />
-              <span>{p.label}</span>
-              {page === p.id && <span className="nav-dot" />}
-            </button>
-          ))}
-        </nav>
-        <div className="nav-label">RESEARCH OPERATIONS</div>
-        <nav aria-label="研究工具">
-          {pages.slice(4).map((p) => (
-            <button
-              key={p.id}
-              className={page === p.id ? "nav-item active" : "nav-item"}
-              onClick={() => go(p.id)}
-              aria-current={page === p.id ? "page" : undefined}
-            >
-              <p.icon size={17} />
-              <span>{p.label}</span>
-              {p.id === "agent" && <span className="nav-count">5</span>}
-            </button>
-          ))}
-        </nav>
-        <div className="sidebar-bottom">
-          <div className="dataset-status">
-            <span className="status-dot" />
-            <div>
-              冻结研究数据<small>AS OF 03 OCT 2026 · UTC</small>
-            </div>
-            <ShieldCheck size={16} />
-          </div>
-          <a href={REPO} target="_blank" rel="noreferrer">
-            <Github size={16} /> Source repository <ArrowUpRight size={14} />
+      <header className="masthead">
+        <div className="masthead-inner">
+          <a
+            className="wordmark"
+            href="#research"
+            onClick={() => go("research")}
+          >
+            RCM<span>RESEARCH</span>
           </a>
-          <div className="sidebar-version">
-            <span>SARKAZ V3F</span>
-            <span>v2.0</span>
-          </div>
-        </div>
-      </aside>
-      <div className="main-shell">
-        <header className="topbar">
-          <div className="breadcrumb">
-            研究工作区 <ChevronRight size={13} />
-            <strong>{selectedPage.label}</strong>
-          </div>
-          <div className="topbar-right">
+          <span className="masthead-title">REGIME-CONDITIONED MOMENTUM</span>
+          <div className="masthead-actions">
             <button
               className="search-trigger"
               aria-label="搜索研究与交易"
@@ -183,210 +170,202 @@ export default function App() {
                 setQuery("");
               }}
             >
-              <Search size={14} />
-              <span>搜索研究与交易</span>
-              <kbd>Ctrl K</kbd>
+              <Search size={16} />
+              <span>搜索研究</span>
+              <kbd>⌘ K</kbd>
             </button>
-            <button
-              className="icon-button"
-              title="计算口径"
-              aria-label="查看计算口径"
-              onClick={() => setMethodOpen(true)}
+            <a
+              href={REPO}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="GitHub 源代码"
             >
-              <CircleHelp size={18} />
-            </button>
-            <span className="avatar">JW</span>
+              <Github size={18} />
+            </a>
           </div>
-        </header>
-        <main id="main-content">
+        </div>
+        <nav className="main-nav" aria-label="主导航">
+          {pages.map((p) => (
+            <button
+              key={p.id}
+              className={page === p.id ? "active" : ""}
+              onClick={() => go(p.id)}
+              aria-current={page === p.id ? "page" : undefined}
+            >
+              {p.label}
+              {p.id === "archive" && <small>{research.cases.length}</small>}
+            </button>
+          ))}
+          <span className="nav-edition">RESEARCH EDITION · 03</span>
+        </nav>
+      </header>
+      <main
+        id="main-content"
+        tabIndex={-1}
+        className={page === "research" ? "home-page" : "content-page"}
+      >
+        {page !== "research" && (
           <div className="page-heading">
             <div>
               <div className="eyebrow">
-                SARKAZ V3F <span>/</span> {selectedPage.en.toUpperCase()}
+                RCM RESEARCH / {selectedPage.en.toUpperCase()}
               </div>
-              <h1>
-                {page === "overview"
-                  ? "策略表现，一览全局。"
-                  : selectedPage.label}
-              </h1>
-              <p>
-                {
-                  (
-                    {
-                      overview:
-                        "从收益曲线到每一笔成交，理解策略如何承担风险、创造收益。",
-                      strategy:
-                        "BTC 永续 · 5 分钟动量 · 单向做多 · 冻结规则研究",
-                      risk: "观察回撤、收益集中度，以及固定成交路径下的成本敏感性。",
-                      trades: "逐笔检查交易结果，追溯入场、加仓与退出成交。",
-                      agent:
-                        "研究工具、结构化结论与独立复核，形成可检查的运行链路。",
-                      evidence:
-                        "统一来源、时间边界与指标定义，让研究结果可以复现。",
-                    } as Record<string, string>
-                  )[page]
-                }
-              </p>
+              <h1>{selectedPage.label}</h1>
+              <p>{descriptions[page]}</p>
             </div>
-            <div className="heading-actions">
-              <Tag>
-                <span className="status-dot" />
-                历史回测
-              </Tag>
-              <a
-                className="button primary"
-                href={ASSET + "report.html"}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <FileText size={15} />
-                研究报告
-                <ArrowUpRight size={14} />
-              </a>
-            </div>
+            <a
+              className="text-link"
+              href={REPO + "/blob/main/docs/RESEARCH_HISTORY.md"}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <FileText size={15} />
+              研究长文 <ArrowUpRight size={13} />
+            </a>
           </div>
-          {page !== "agent" && page !== "evidence" && (
-            <div className="scope-bar">
-              <div className="asset-chip">
-                <span className="bitcoin">₿</span>
-                <strong>BTC / USDT</strong>
-                <span>PERP</span>
-                <i />
-                <span>Sarkaz V3F</span>
-              </div>
-              <div className="period-switch" aria-label="研究区间">
-                {periods.map((p) => (
-                  <button
-                    key={p.id}
-                    onClick={() => {
-                      setPeriod(p.id);
-                      setTradeMonth("");
-                    }}
-                    className={period === p.id ? "selected" : ""}
-                    aria-pressed={period === p.id}
-                  >
-                    {p.label}
-                  </button>
-                ))}
-              </div>
-              <button
-                className="scope-dates"
-                onClick={() => setMethodOpen(true)}
-              >
-                {date(current.base.scope.start)} —{" "}
-                {date(current.base.scope.end_exclusive)}
-                <CircleHelp size={12} />
-              </button>
+        )}
+        {financial && (
+          <div className="scope-bar">
+            <div className="asset-chip">
+              <strong>BTC / USDT</strong>
+              <span>PERP · RCM-3F</span>
             </div>
-          )}
-          {page === "overview" && (
-            <Overview
-              period={current}
-              periodKey={period}
-              onMonth={monthlyOpen}
-              go={go}
-            />
-          )}
-          {page === "strategy" && <Strategy period={current} go={go} />}
-          {page === "risk" && <Risk period={current} />}
-          {page === "trades" && (
-            <Trades
-              period={current}
-              query={tradeQuery}
-              setQuery={setTradeQuery}
-              month={tradeMonth}
-              setMonth={setTradeMonth}
-            />
-          )}
-          {page === "agent" && <Agent api={api} />}
-          {page === "evidence" && <Evidence data={data} />}
-          <footer>
-            <span>
-              SARKAZ RESEARCH <i /> BTC 永续策略研究
-            </span>
-            <span>
-              平仓权益 · 单边 5 bps · 资金费未计{" "}
-              <button onClick={() => setMethodOpen(true)}>
-                计算口径 <ArrowUpRight size={11} />
-              </button>
-            </span>
-          </footer>
-        </main>
-      </div>
+            <div className="period-switch" aria-label="研究区间">
+              {periods.map((p) => (
+                <button
+                  key={p.id}
+                  onClick={() => {
+                    setPeriod(p.id);
+                    setTradeMonth("");
+                  }}
+                  className={period === p.id ? "selected" : ""}
+                  aria-pressed={period === p.id}
+                >
+                  {p.label}
+                </button>
+              ))}
+            </div>
+            <button className="scope-dates" onClick={() => setMethodOpen(true)}>
+              {date(current.base.scope.start)} —{" "}
+              {date(current.base.scope.end_exclusive)}{" "}
+              <ArrowUpRight size={12} />
+            </button>
+          </div>
+        )}
+        {page === "research" && (
+          <Research data={research} period={data.periods.all} go={go} />
+        )}
+        {page === "strategy" && <Strategy period={data.periods.all} go={go} />}
+        {page === "archive" && <Archive data={research} />}
+        {page === "process" && <Process data={research} go={go} api={api} />}
+        {page === "performance" && (
+          <Overview
+            period={current}
+            periodKey={period}
+            onMonth={monthlyOpen}
+            go={go}
+          />
+        )}
+        {page === "risk" && <Risk period={current} />}
+        {page === "trades" && (
+          <Trades
+            period={current}
+            query={tradeQuery}
+            setQuery={setTradeQuery}
+            month={tradeMonth}
+            setMonth={setTradeMonth}
+          />
+        )}
+        {page === "evidence" && <Evidence data={data} />}
+        <footer>
+          <div className="footer-brand">
+            RCM<span>Regime-Conditioned Momentum</span>
+          </div>
+          <p>
+            独立策略研究 · 数据截至 2026.10.03
+            <br />
+            研究回测 · 平仓权益 · 单边 5 bps · 资金费未计
+          </p>
+          <div>
+            <button onClick={() => setMethodOpen(true)}>
+              计算口径 <ArrowUpRight size={12} />
+            </button>
+            <a href={REPO} target="_blank" rel="noreferrer">
+              Source <ArrowUpRight size={12} />
+            </a>
+          </div>
+        </footer>
+      </main>
       {methodOpen && (
         <Modal title="研究口径" close={() => setMethodOpen(false)}>
           <Methodology />
         </Modal>
       )}
       {searchOpen && (
-        <Modal title="搜索工作区" close={() => setSearchOpen(false)}>
+        <Modal title="搜索研究与交易" close={() => setSearchOpen(false)}>
           <div className="command-input">
             <Search size={18} />
             <input
               autoFocus
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="页面名称、交易编号或日期，如 T0900"
+              placeholder="研究方法、失败原因、R14 或 T0900"
               aria-label="搜索工作区内容"
             />
           </div>
           <div className="command-results">
-            {pages
-              .filter(
-                (p) =>
-                  !query ||
-                  (p.label + p.en).toLowerCase().includes(query.toLowerCase()),
-              )
-              .map((p) => (
-                <button
-                  key={p.id}
-                  onClick={() => {
-                    go(p.id);
-                    setSearchOpen(false);
-                  }}
-                >
-                  <p.icon size={16} />
-                  {p.label}
-                  <ArrowRight size={14} />
-                </button>
-              ))}
-            {query &&
-              data.periods[period].trades
-                .filter((t) =>
-                  `${t.id} ${t.closed}`
-                    .toLowerCase()
-                    .includes(query.toLowerCase()),
-                )
-                .slice(0, 6)
-                .map((t) => (
-                  <button
-                    key={t.id}
-                    onClick={() => {
-                      setTradeQuery(t.id);
-                      setTradeMonth("");
-                      go("trades");
-                      setSearchOpen(false);
-                    }}
-                  >
-                    <ListFilter size={16} />
-                    {t.id}
-                    <span>
-                      {date(t.closed)} · {number(t.pnl)} USDT
-                    </span>
-                  </button>
-                ))}
-            {query &&
-              !pages.some((p) =>
-                (p.label + p.en).toLowerCase().includes(query.toLowerCase()),
-              ) &&
-              !data.periods[period].trades.some((t) =>
-                `${t.id} ${t.closed}`
-                  .toLowerCase()
-                  .includes(query.toLowerCase()),
-              ) && (
-                <div className="empty-state">
-                  没有匹配结果。可尝试“风险”或“T0900”。
-                </div>
+            {foundPages.map((p) => (
+              <button
+                key={p.id}
+                onClick={() => {
+                  go(p.id);
+                  setSearchOpen(false);
+                }}
+              >
+                <span className="search-category">页面</span>
+                {p.label}
+                <ArrowRight size={14} />
+              </button>
+            ))}
+            {foundCases.map((c) => (
+              <button
+                key={c.id}
+                onClick={() => {
+                  go("archive/" + c.id);
+                  setSearchOpen(false);
+                }}
+              >
+                <span className="search-category">{c.id}</span>
+                <span>
+                  {c.title}
+                  <small>
+                    {c.family} · {c.methodLabel}
+                  </small>
+                </span>
+                <ArrowUpRight size={14} />
+              </button>
+            ))}
+            {foundTrades.map((t) => (
+              <button
+                key={t.id}
+                onClick={() => {
+                  setTradeQuery(t.id);
+                  setTradeMonth("");
+                  go("trades");
+                  setSearchOpen(false);
+                }}
+              >
+                <span className="search-category">交易</span>
+                {t.id}
+                <span>
+                  {date(t.closed)} · {number(t.pnl)} USDT
+                </span>
+              </button>
+            ))}
+            {!foundCases.length &&
+              !foundPages.length &&
+              !foundTrades.length && (
+                <div className="empty-state">没有匹配的研究或交易。</div>
               )}
           </div>
         </Modal>

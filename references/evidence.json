@@ -1,8 +1,37 @@
 [
-  {"id":"E-BACKTEST","title":"Sarkaz V3F 连续历史回测","source":"research/operations/v3f_full_history_2026-10-03/REPORT_CN.md","trust":"archived_research","text":"冻结 SarkazV3F 在连续账户中运行，原生回测 922 笔，单边手续费 5 bps，未计资金费；已实现权益在平仓时确认。全历史包含开发及后续观察区间。公开样本保留逐笔净利润与全部成交名义金额。"},
-  {"id":"E-METRICS","title":"账户收益与成本核验口径","source":"research_agent/metrics.py + audit.py","trust":"deterministic_contract","text":"收益由平仓利润重建；CAGR 使用原生有效回测日数的 365 日年化；Sharpe 使用每日账户收益的样本标准差与 sqrt(365)。成本情景按每笔全部进出及加仓成交名义金额追加成本，并在该笔平仓时入账。固定交易路径，不重新求解仓位。"},
-  {"id":"E-STRATEGY","title":"动量研究规则与风险表达","source":"user_data/strategies/SarkazV3F.py; research/operations/v3f_original_oos_resume_2026-10-03/MARKET_ACHIEVEMENTS.md","trust":"archived_research","text":"策略以成交活跃度、结构突破和市场状态过滤组织入场，下一根 K 线收盘确认；初始风险锚点贯穿盈利加仓及跟踪退出。工程工作台复用冻结回测资产，不承担交易执行。"},
-  {"id":"E-ENGINEERING","title":"原交易系统的工程模块","source":"WORKSPACE_ASSET_MAP.md; scripts/maintenance/build_freqtrade_dryrun_stack.py; deployments/dryrun-telegram-monitor/ftdry.py","trust":"archived_research","text":"既有系统具有 Freqtrade/CCXT 交易接口集成、Docker 双容器部署、各自独立 SQLite 状态与 REST 只读监控。已归档发布报告记录 dry-run 云端运行。工作台通过离线资产适配器接入研究结果。"},
-  {"id":"E-CONTEXT","title":"研究上下文与实验身份","source":"research_core/policy.py; research_core/registry.py; research/RESEARCH_HANDOFF.md","trust":"archived_research","text":"原研究控制面以时间分区、假设编号、实验账本和代码/数据指纹维护上下文。本次以输入快照、版本化 Prompt、证据表与逐节点轨迹把同样的思想应用到研究 Agent。"}
+  {
+    "id": "E-BACKTEST",
+    "title": "RCM-3F 连续历史回测",
+    "source": "research/operations/v3f_full_history_2026-10-03/REPORT_CN.md",
+    "trust": "archived_research",
+    "text": "固定规则的 RCM-3F 在连续账户中运行，原生回测 922 笔，单边手续费 5 bps，未计资金费；已实现权益在平仓时确认。全历史包含开发及后续观察区间。公开样本保留逐笔净利润与全部成交名义金额。"
+  },
+  {
+    "id": "E-METRICS",
+    "title": "账户收益与成本核验口径",
+    "source": "research_agent/metrics.py + audit.py",
+    "trust": "deterministic_contract",
+    "text": "收益由平仓利润重建；CAGR 使用原生有效回测日数的 365 日年化；Sharpe 使用每日账户收益的样本标准差与 sqrt(365)。成本情景按每笔全部进出及加仓成交名义金额追加成本，并在该笔平仓时入账。固定交易路径，不重新求解仓位。"
+  },
+  {
+    "id": "E-STRATEGY",
+    "title": "动量研究规则与风险表达",
+    "source": "user_data/strategies/SarkazV3F.py; research/operations/v3f_original_oos_resume_2026-10-03/MARKET_ACHIEVEMENTS.md",
+    "trust": "archived_research",
+    "text": "RCM-3F 以 Signal K、异常成交量、结构突破和 Regime V2 组织入场。延迟一根完成 K 线后进入，下一收盘强弱用于有限风险权重；弱确认仍可交易。+1R 后单次加仓，保本锚定原入场价，前 4h 低点跟踪，最长 24h。动态 Bayes 门槛和 XGBoost 状态属于研究分支，未进入最终入场规则。"
+  },
+  {
+    "id": "E-ENGINEERING",
+    "title": "原交易系统的工程模块",
+    "source": "WORKSPACE_ASSET_MAP.md; scripts/maintenance/build_freqtrade_dryrun_stack.py; deployments/dryrun-telegram-monitor/ftdry.py",
+    "trust": "archived_research",
+    "text": "既有系统具有 Freqtrade/CCXT 交易接口集成、Docker 双容器部署、各自独立 SQLite 状态与 REST 只读监控。已归档发布报告记录 dry-run 云端运行。工作台通过离线资产适配器接入研究结果。"
+  },
+  {
+    "id": "E-CONTEXT",
+    "title": "研究上下文与实验身份",
+    "source": "research/chronicle.json; docs/AGENT_RESEARCH.md",
+    "trust": "archived_research",
+    "text": "研究控制面用时间分区、假设编号、实验账本和去留裁决维护上下文。48 个研究节点覆盖早期策略、因子替代、仓位管理、状态模型与执行复盘，按问题、方法、证据和决定组织。"
+  }
 ]
-

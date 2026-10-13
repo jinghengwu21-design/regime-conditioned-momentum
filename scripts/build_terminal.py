@@ -1,7 +1,6 @@
 """Build reproducible browser artifacts. No network or model access is required."""
 from __future__ import annotations
 
-import hashlib
 import json
 from pathlib import Path
 import shutil
@@ -26,7 +25,7 @@ def main():
     target = ROOT / "web/public/data"
     target.mkdir(parents=True, exist_ok=True)
     store = DataStore()
-    payload = {"version": "2.0.0", "asof": "2026-10-03T12:05:00Z", "manifest": store.manifest,
+    payload = {"version": "3.0.0", "asof": "2026-10-03T12:05:00Z", "manifest": store.manifest,
                "periods": {key: portfolio_analytics(store, *dates) for key, dates in PERIODS.items()},
                "evidence": store.evidence_rows()}
     (target / "terminal.json").write_text(json.dumps(payload, ensure_ascii=False, allow_nan=False, separators=(",", ":")), encoding="utf-8")
@@ -41,10 +40,10 @@ def main():
     (target / "experiments.json").write_text(json.dumps(experiments, ensure_ascii=False, allow_nan=False, separators=(",", ":")), encoding="utf-8")
     for name in ["trades.csv", "fills.csv", "market_daily.csv", "reference_metrics.json", "manifest.json"]:
         shutil.copy2(ROOT / "data" / name, target / name)
-    fingerprint = {p.name: {"sha256": hashlib.sha256(p.read_bytes()).hexdigest(), "bytes": p.stat().st_size}
+    file_sizes = {p.name: {"bytes": p.stat().st_size}
                    for p in sorted(target.glob("*")) if p.name != "build-manifest.json"}
-    (target / "build-manifest.json").write_text(json.dumps(fingerprint, indent=2), encoding="utf-8")
-    print(json.dumps({"periods": len(PERIODS), "experiments": len(experiments), "files": fingerprint}))
+    (target / "build-manifest.json").write_text(json.dumps(file_sizes, indent=2), encoding="utf-8")
+    print(json.dumps({"periods": len(PERIODS), "experiments": len(experiments), "files": file_sizes}))
 
 
 if __name__ == "__main__":

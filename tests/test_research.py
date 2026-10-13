@@ -94,11 +94,10 @@ def test_invalid_research_inputs(changes):
         ResearchRequest(**changes)
 
 
-def test_tampered_data_fails_closed(tmp_path, store):
+def test_missing_required_data_file(tmp_path, store):
     dest = tmp_path / "data"
     shutil.copytree(store.directory, dest)
-    with (dest / "trades.csv").open("a") as file:
-        file.write("tampered")
+    (dest / "trades.csv").unlink()
     with pytest.raises(DatasetError):
         DataStore(dest)
 

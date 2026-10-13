@@ -22,12 +22,12 @@ echarts.use([
   SVGRenderer,
 ]);
 export const colors = {
-  green: "#80d6ba",
-  blue: "#879cce",
-  red: "#e19391",
-  amber: "#ceb78a",
-  text: "#82908f",
-  grid: "#253035",
+  green: "#2d6b59",
+  blue: "#7f92a7",
+  red: "#ac6b5d",
+  amber: "#a18147",
+  text: "#849180",
+  grid: "#e3e8de",
 };
 export function lineOption(
   dates: string[],
@@ -51,9 +51,9 @@ export function lineOption(
     grid: { left: 55, right: 20, top: 20, bottom: 32 },
     tooltip: {
       trigger: "axis",
-      backgroundColor: "#1e282f",
-      borderColor: "#3a464d",
-      textStyle: { color: "#e4ebe9", fontSize: 12 },
+      backgroundColor: "#ffffff",
+      borderColor: "#ccd8c5",
+      textStyle: { color: "#344432", fontSize: 12 },
       valueFormatter: (value: unknown) =>
         typeof value === "number"
           ? percent

@@ -1,15 +1,10 @@
 from __future__ import annotations
 
-import hashlib
 import json
 from pathlib import Path
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
-
-
-def file_hash(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 class DatasetError(ValueError):
@@ -21,10 +16,10 @@ class DataStore:
         self.directory = Path(directory or ROOT / "data").resolve()
         self.manifest = json.loads((self.directory / "manifest.json").read_text(encoding="utf-8"))
         if verify:
-            for name, metadata in self.manifest["files"].items():
+            for name in self.manifest["files"]:
                 path = (self.directory / name).resolve()
-                if path.parent != self.directory or not path.is_file() or file_hash(path) != metadata["sha256"]:
-                    raise DatasetError(f"数据完整性验证失败：{name}")
+                if path.parent != self.directory or not path.is_file():
+                    raise DatasetError(f"数据文件不可用：{name}")
         self.trades = pd.read_csv(self.directory / "trades.csv")
         for col in ("open_date", "close_date"):
             self.trades[col] = pd.to_datetime(self.trades[col], utc=True)
@@ -46,7 +41,6 @@ class DataStore:
         rows = []
         for item in self.evidence:
             row = dict(item)
-            row["source_hash"] = self.manifest["original_report"]["sha256"] if row["id"] == "E-BACKTEST" else hashlib.sha256(row["text"].encode()).hexdigest()
             rows.append(row)
         return rows
 

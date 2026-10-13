@@ -1,9 +1,9 @@
 {
-  "dataset_id": "sarkaz-v3f-history-20261003-v1",
+  "dataset_id": "rcm-3f-history-20261003-v1",
   "asset": "BTC/USDT:USDT",
   "asset_class": "crypto_perpetual",
   "exchange": "OKX",
-  "strategy": "SarkazV3F",
+  "strategy": "RCM-3F",
   "engine": "Freqtrade",
   "engine_timeframe": "5m",
   "start": "2020-01-01T00:00:00+00:00",
@@ -19,51 +19,40 @@
   "market_end_exclusive": "2026-10-03T00:00:00+00:00",
   "market_interval": "1D",
   "market_aggregation": "UTC day; OHLCV aggregated from original 5m candles; final backtest half-day is not included",
-  "code_fingerprint": "a81d363128dea6d548be03e3da217a8f67e2f49060c2844c05c05ee54f0728f8",
   "original_report": {
-    "path": "research/operations/v3f_full_history_2026-10-03/REPORT_CN.md",
-    "sha256": "e9af77e377fb2ecd96754b43c19941b0447a098b766a2075f5ba42b1b767c86b"
+    "path": "research/operations/v3f_full_history_2026-10-03/REPORT_CN.md"
   },
   "original_archive": {
-    "path": "research/operations/v3f_full_history_2026-10-03/native/backtest-result-2026-10-03_22-19-17.zip",
-    "sha256": "a5417859c9f541a0f8814e46a67c02766f160821a4e5e306fac3bd29d1b95f96"
+    "path": "research/operations/v3f_full_history_2026-10-03/native/backtest-result-2026-10-03_22-19-17.zip"
   },
-  "original_summary_sha256": "f12cdf26c97c8d8bf27f3ef3833b74523c56557c1a4a331f66c330bb19004c11",
   "market_sources": [
     {
       "path": "user_data/data/research_v2/btc_5m_research_v2_20260721/train_2020_2023/BTC_USDT_USDT-5m-futures.feather",
-      "sha256": "ae81412d17c4c0d99d80b7e9e27712a0b50bd09d28e5a58791ce9b45357cf43c",
       "slice_start": "2020-01-01",
       "slice_end_exclusive": "2024-01-01"
     },
     {
       "path": "user_data/data/okx/futures/BTC_USDT_USDT-5m-futures.feather",
-      "sha256": "a977e580ab15d81c41ed9b9314f6b8ec9907b157a6f0dfb76b953abd9f931c8c",
       "slice_start": "2024-01-01",
       "slice_end_exclusive": "2026-01-01"
     },
     {
       "path": "research/operations/v3f_2026_backtest_2026-10-03/download/futures/BTC_USDT_USDT-5m-futures.feather",
-      "sha256": "613ada07335ae643f91ae4e54925b188248a3ef420824b7dae7556352449af4c",
       "slice_start": "2026-01-01",
       "slice_end_exclusive": "2026-10-03"
     }
   ],
   "files": {
     "fills.csv": {
-      "sha256": "0620a3f4e2948eab96a4c4cdb7c771c8ed1b65c710a0ef1546e8750d7e9b0f42",
       "bytes": 153026
     },
     "market_daily.csv": {
-      "sha256": "3c45f68599d67956f46f69b585c1f1f25fb13fbeb08a670a6284d3ac2d583a52",
       "bytes": 174200
     },
     "reference_metrics.json": {
-      "sha256": "e48e4d8686f319febe9e52959335bbb68bcc4c7275f9d7be1e1863a1e3f3e6f5",
       "bytes": 326
     },
     "trades.csv": {
-      "sha256": "dcc450dd1e4139ca4cbeebbe23f57c0f97c8a4d9ea99fd7e63410272ee0f2e29",
       "bytes": 121070
     }
   }

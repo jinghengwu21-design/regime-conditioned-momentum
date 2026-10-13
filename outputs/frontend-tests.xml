@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <testsuites>
-	<testcase name="browser cost engine reconciles to Python across periods and fees" time="0.026978" classname="test" file="F:\freqtrade\financial_research_workbench\web\tests\finance.test.ts"/>
-	<testcase name="slippage is charged on every fill notional" time="0.001252" classname="test" file="F:\freqtrade\financial_research_workbench\web\tests\finance.test.ts"/>
-	<testcase name="month and outcome filters intersect; export contains selected rows only" time="0.001609" classname="test" file="F:\freqtrade\financial_research_workbench\web\tests\finance.test.ts"/>
+	<testcase name="browser cost engine reconciles to Python across periods and fees" time="0.017848" classname="test" file="F:\freqtrade\financial_research_workbench\web\tests\finance.test.ts"/>
+	<testcase name="slippage is charged on every fill notional" time="0.000743" classname="test" file="F:\freqtrade\financial_research_workbench\web\tests\finance.test.ts"/>
+	<testcase name="month and outcome filters intersect; export contains selected rows only" time="0.000861" classname="test" file="F:\freqtrade\financial_research_workbench\web\tests\finance.test.ts"/>
 	<!-- tests 3 -->
 	<!-- suites 0 -->
 	<!-- pass 3 -->
@@ -10,5 +10,5 @@
 	<!-- cancelled 0 -->
 	<!-- skipped 0 -->
 	<!-- todo 0 -->
-	<!-- duration_ms 233.2276 -->
+	<!-- duration_ms 207.4493 -->
 </testsuites>

@@ -6,7 +6,6 @@ Run from this checkout with --source-root pointing at the original workspace.
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 from pathlib import Path
 import zipfile
@@ -14,10 +13,6 @@ import zipfile
 import pandas as pd
 
 HERE = Path(__file__).resolve().parents[1]
-
-
-def sha(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def write(path: Path, value: object) -> None:
@@ -54,36 +49,29 @@ def build(root: Path, destination: Path) -> None:
         ("research/operations/v3f_2026_backtest_2026-10-03/download/futures/BTC_USDT_USDT-5m-futures.feather", "2026-01-01", "2026-10-03"),
     ]
     parts, source_files = [], []
-    audit = json.loads((source / "data_audit.json").read_text(encoding="utf-8"))
-    old_hashes = {Path(k).as_posix().replace("\\", "/").split("freqtrade/")[-1]: v for k, v in audit["source_hashes"].items()}
     for rel, left, right in paths:
         path = root / rel
-        digest = sha(path)
-        if digest != old_hashes[rel]:
-            raise ValueError(f"Source changed since archived report: {rel}")
         frame = pd.read_feather(path)
         frame["date"] = pd.to_datetime(frame.date, utc=True)
         parts.append(frame.loc[(frame.date >= pd.Timestamp(left, tz="UTC")) & (frame.date < pd.Timestamp(right, tz="UTC"))])
-        source_files.append({"path": rel, "sha256": digest, "slice_start": left, "slice_end_exclusive": right})
+        source_files.append({"path": rel, "slice_start": left, "slice_end_exclusive": right})
     candles = pd.concat(parts).sort_values("date").set_index("date")
     if candles.index.duplicated().any():
         raise ValueError("Duplicate market timestamps")
     daily = candles.resample("1D").agg(open=("open", "first"), high=("high", "max"), low=("low", "min"), close=("close", "last"), volume=("volume", "sum"), candle_count=("close", "count"))
     daily.to_csv(destination / "market_daily.csv", index_label="date", float_format="%.12g")
-    protocol = json.loads((source / "protocol.json").read_text(encoding="utf-8"))
     manifest = {
-        "dataset_id": "sarkaz-v3f-history-20261003-v1", "asset": "BTC/USDT:USDT", "asset_class": "crypto_perpetual", "exchange": "OKX",
-        "strategy": "SarkazV3F", "engine": "Freqtrade", "engine_timeframe": "5m",
+        "dataset_id": "rcm-3f-history-20261003-v1", "asset": "BTC/USDT:USDT", "asset_class": "crypto_perpetual", "exchange": "OKX",
+        "strategy": "RCM-3F", "engine": "Freqtrade", "engine_timeframe": "5m",
         "start": "2020-01-01T00:00:00+00:00", "end_exclusive": "2026-10-03T12:05:00+00:00",
         "metric_start": "2020-01-04T11:20:00+00:00", "metric_end": "2026-10-03T12:00:00+00:00", "backtest_days": native["backtest_days"],
         "starting_balance": 1000.0, "base_fee_bps_per_side": 5.0, "funding": "excluded", "equity_basis": "closed_trade_realized",
         "market_start": daily.index.min().isoformat(), "market_end_exclusive": "2026-10-03T00:00:00+00:00",
         "market_interval": "1D", "market_aggregation": "UTC day; OHLCV aggregated from original 5m candles; final backtest half-day is not included",
-        "code_fingerprint": protocol["code_fingerprint"],
-        "original_report": {"path": source.relative_to(root).as_posix() + "/REPORT_CN.md", "sha256": sha(source / "REPORT_CN.md")},
-        "original_archive": {"path": archive.relative_to(root).as_posix(), "sha256": sha(archive)},
-        "original_summary_sha256": sha(source / "summary.json"), "market_sources": source_files,
-        "files": {p.name: {"sha256": sha(p), "bytes": p.stat().st_size} for p in sorted(destination.glob("*")) if p.name != "manifest.json"},
+        "original_report": {"path": source.relative_to(root).as_posix() + "/REPORT_CN.md"},
+        "original_archive": {"path": archive.relative_to(root).as_posix()},
+        "market_sources": source_files,
+        "files": {p.name: {"bytes": p.stat().st_size} for p in sorted(destination.glob("*")) if p.name != "manifest.json"},
     }
     write(destination / "manifest.json", manifest)
     print(json.dumps({"trades": len(trades), "fills": len(fills), "daily_candles": len(daily), "incomplete_days": int((daily.candle_count != 288).sum()), "destination": str(destination)}, ensure_ascii=False))

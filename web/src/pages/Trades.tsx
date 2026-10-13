@@ -76,7 +76,7 @@ export default function Trades({
           onClick={() =>
             download(
               tradesCSV(filtered),
-              "sarkaz-trades.csv",
+              "rcm-trades.csv",
               "text/csv;charset=utf-8",
             )
           }

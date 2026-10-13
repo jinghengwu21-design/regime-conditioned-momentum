@@ -1,7 +1,6 @@
 """Separate untrusted text from execution authority; validate every tool call."""
 from __future__ import annotations
 
-import hashlib
 import re
 import unicodedata
 
@@ -21,7 +20,7 @@ def screen_external(text: str) -> dict:
     normalized = unicodedata.normalize("NFKC", text)
     flags = [name for name, pattern in RULES.items() if re.search(pattern, normalized, re.I)]
     return {
-        "trust": "untrusted_external", "sha256": hashlib.sha256(text.encode()).hexdigest(),
+        "trust": "untrusted_external",
         "chars": len(text), "flags": flags, "quarantined": bool(flags),
         "model_text": "[外部资料已隔离：包含指令或凭据请求。]" if flags else normalized[:4000],
     }

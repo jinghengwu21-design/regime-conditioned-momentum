@@ -9,13 +9,13 @@ try {
         & python -m venv --without-pip .venv
         if ($LASTEXITCODE -ne 0) { throw 'Could not create the virtual environment.' }
     }
-    $lockHash = (Get-FileHash -LiteralPath 'requirements.lock' -Algorithm SHA256).Hash
-    $stampPath = Join-Path $projectRoot '.venv\dependency-lock.sha256'
-    $installedHash = if (Test-Path -LiteralPath $stampPath) { (Get-Content -LiteralPath $stampPath -Raw).Trim() } else { '' }
-    if ($installedHash -ne $lockHash) {
+    $lockContent = Get-Content -LiteralPath 'requirements.lock' -Raw
+    $stampPath = Join-Path $projectRoot '.venv\installed-requirements.txt'
+    $installedContent = if (Test-Path -LiteralPath $stampPath) { Get-Content -LiteralPath $stampPath -Raw } else { '' }
+    if ($installedContent -ne $lockContent) {
         & python -m pip --python .venv install -r requirements.lock --disable-pip-version-check
         if ($LASTEXITCODE -ne 0) { throw 'Dependency installation failed.' }
-        Set-Content -LiteralPath $stampPath -Value $lockHash -Encoding utf8
+        Copy-Item -LiteralPath 'requirements.lock' -Destination $stampPath -Force
     }
     if ($Mode -eq 'serve' -or $Mode -eq 'build') {
         Push-Location -LiteralPath (Join-Path $projectRoot 'web')

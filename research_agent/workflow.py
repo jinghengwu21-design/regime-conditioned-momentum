@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
-import hashlib
 import importlib.metadata
 import json
 from pathlib import Path
@@ -55,7 +54,7 @@ def run_research(request: ResearchRequest, output_root: Path | None = None, stor
         raw = request.external_text or ATTACKS.get(request.scenario, "")
         document = screen_external(raw)
         save("context.json", {"request": request.model_dump(exclude={"external_text"}), "external_document": document, "evidence_ids": [e["id"] for e in store.evidence], "prompt_version": "researcher.v2"})
-        runner.event("context", "classify_external_document", {"chars": len(raw), "sha256": document["sha256"], "scenario": request.scenario}, document, "quarantined" if document["quarantined"] else "ok")
+        runner.event("context", "classify_external_document", {"chars": len(raw), "scenario": request.scenario}, document, "quarantined" if document["quarantined"] else "ok")
         return {"external": document}
 
     def analysis(state: State):
@@ -115,12 +114,10 @@ def run_research(request: ResearchRequest, output_root: Path | None = None, stor
 
     def export(state: State):
         from .reporting import render_html, render_markdown
-        prompt_path = ROOT / "prompts/researcher.v2.txt"
-        result = {"run_id": run_id, "recorded_at_utc": datetime.now(timezone.utc).isoformat(), "mode": request.mode, "execution_label": "确定性研究" if request.mode == "offline" else "模型研究与工具调用", "request": request.model_dump(exclude={"external_text"}), "dataset": store.manifest, "base": runner.base, "market": runner.market, "costs": runner.costs, "draft": state["draft"], "original_draft": state["original_draft"], "reviews": state["reviews"], "repaired": state["repaired"], "external": state["external"], "evidence": store.evidence_rows(), "prompt": {"version": "researcher.v2", "sha256": hashlib.sha256(prompt_path.read_bytes()).hexdigest()}, "model": model or __import__("os").environ.get("OPENAI_MODEL") if request.mode == "openai" else None, "artifacts": {"report_html": "report.html", "report_markdown": "report.md", "trace": "trace.jsonl"}}
+        result = {"run_id": run_id, "recorded_at_utc": datetime.now(timezone.utc).isoformat(), "mode": request.mode, "execution_label": "确定性研究" if request.mode == "offline" else "模型研究与工具调用", "request": request.model_dump(exclude={"external_text"}), "dataset": store.manifest, "base": runner.base, "market": runner.market, "costs": runner.costs, "draft": state["draft"], "original_draft": state["original_draft"], "reviews": state["reviews"], "repaired": state["repaired"], "external": state["external"], "evidence": store.evidence_rows(), "prompt": {"version": "researcher.v2"}, "model": model or __import__("os").environ.get("OPENAI_MODEL") if request.mode == "openai" else None, "artifacts": {"report_html": "report.html", "report_markdown": "report.md", "trace": "trace.jsonl"}}
         runner.event("export", "render_cited_report", {"format": ["HTML", "Markdown", "JSONL"]}, {"review_passed": True, "report": "report.html", "numeric_claims": len(state["draft"]["claims"])})
         result["trace"] = runner.events
-        code_paths = sorted((ROOT / "research_agent").glob("*.py"))
-        result["implementation"] = {"python": sys.version.split()[0], "packages": {name: importlib.metadata.version(name) for name in ["langgraph", "openai", "pandas", "numpy", "plotly", "pydantic"]}, "source_sha256": {p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in code_paths}}
+        result["implementation"] = {"python": sys.version.split()[0], "packages": {name: importlib.metadata.version(name) for name in ["langgraph", "openai", "pandas", "numpy", "plotly", "pydantic"]}}
         save("result.json", result)
         (run_dir / "report.html").write_text(render_html(result), encoding="utf-8")
         (run_dir / "report.md").write_text(render_markdown(result), encoding="utf-8")

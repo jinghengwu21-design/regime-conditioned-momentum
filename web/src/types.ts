@@ -95,7 +95,6 @@ export interface Evidence {
   title: string;
   source: string;
   text: string;
-  source_hash: string;
 }
 export interface Terminal {
   version: string;
@@ -104,8 +103,7 @@ export interface Terminal {
   evidence: Evidence[];
   manifest: {
     dataset_id: string;
-    code_fingerprint: string;
-    files: Record<string, { sha256: string; bytes: number }>;
+    files: Record<string, { bytes: number }>;
   };
 }
 export interface Trace {
@@ -116,7 +114,6 @@ export interface Trace {
   elapsed_ms: number;
   input: unknown;
   output: unknown;
-  output_sha256: string;
   time_utc: string;
 }
 export interface Run {

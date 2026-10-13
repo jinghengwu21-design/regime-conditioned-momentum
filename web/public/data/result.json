@@ -1,6 +1,6 @@
 {
-  "run_id": "20261013T113345Z-c73b195b",
-  "recorded_at_utc": "2026-10-13T11:33:46.210950+00:00",
+  "run_id": "20261013T130653Z-3efc448c",
+  "recorded_at_utc": "2026-10-13T13:06:54.171884+00:00",
   "mode": "offline",
   "execution_label": "确定性研究",
   "request": {
@@ -14,11 +14,11 @@
     "scenario": "normal"
   },
   "dataset": {
-    "dataset_id": "sarkaz-v3f-history-20261003-v1",
+    "dataset_id": "rcm-3f-history-20261003-v1",
     "asset": "BTC/USDT:USDT",
     "asset_class": "crypto_perpetual",
     "exchange": "OKX",
-    "strategy": "SarkazV3F",
+    "strategy": "RCM-3F",
     "engine": "Freqtrade",
     "engine_timeframe": "5m",
     "start": "2020-01-01T00:00:00+00:00",
@@ -34,51 +34,40 @@
     "market_end_exclusive": "2026-10-03T00:00:00+00:00",
     "market_interval": "1D",
     "market_aggregation": "UTC day; OHLCV aggregated from original 5m candles; final backtest half-day is not included",
-    "code_fingerprint": "a81d363128dea6d548be03e3da217a8f67e2f49060c2844c05c05ee54f0728f8",
     "original_report": {
-      "path": "research/operations/v3f_full_history_2026-10-03/REPORT_CN.md",
-      "sha256": "e9af77e377fb2ecd96754b43c19941b0447a098b766a2075f5ba42b1b767c86b"
+      "path": "research/operations/v3f_full_history_2026-10-03/REPORT_CN.md"
     },
     "original_archive": {
-      "path": "research/operations/v3f_full_history_2026-10-03/native/backtest-result-2026-10-03_22-19-17.zip",
-      "sha256": "a5417859c9f541a0f8814e46a67c02766f160821a4e5e306fac3bd29d1b95f96"
+      "path": "research/operations/v3f_full_history_2026-10-03/native/backtest-result-2026-10-03_22-19-17.zip"
     },
-    "original_summary_sha256": "f12cdf26c97c8d8bf27f3ef3833b74523c56557c1a4a331f66c330bb19004c11",
     "market_sources": [
       {
         "path": "user_data/data/research_v2/btc_5m_research_v2_20260721/train_2020_2023/BTC_USDT_USDT-5m-futures.feather",
-        "sha256": "ae81412d17c4c0d99d80b7e9e27712a0b50bd09d28e5a58791ce9b45357cf43c",
         "slice_start": "2020-01-01",
         "slice_end_exclusive": "2024-01-01"
       },
       {
         "path": "user_data/data/okx/futures/BTC_USDT_USDT-5m-futures.feather",
-        "sha256": "a977e580ab15d81c41ed9b9314f6b8ec9907b157a6f0dfb76b953abd9f931c8c",
         "slice_start": "2024-01-01",
         "slice_end_exclusive": "2026-01-01"
       },
       {
         "path": "research/operations/v3f_2026_backtest_2026-10-03/download/futures/BTC_USDT_USDT-5m-futures.feather",
-        "sha256": "613ada07335ae643f91ae4e54925b188248a3ef420824b7dae7556352449af4c",
         "slice_start": "2026-01-01",
         "slice_end_exclusive": "2026-10-03"
       }
     ],
     "files": {
       "fills.csv": {
-        "sha256": "0620a3f4e2948eab96a4c4cdb7c771c8ed1b65c710a0ef1546e8750d7e9b0f42",
         "bytes": 153026
       },
       "market_daily.csv": {
-        "sha256": "3c45f68599d67956f46f69b585c1f1f25fb13fbeb08a670a6284d3ac2d583a52",
         "bytes": 174200
       },
       "reference_metrics.json": {
-        "sha256": "e48e4d8686f319febe9e52959335bbb68bcc4c7275f9d7be1e1863a1e3f3e6f5",
         "bytes": 326
       },
       "trades.csv": {
-        "sha256": "dcc450dd1e4139ca4cbeebbe23f57c0f97c8a4d9ea99fd7e63410272ee0f2e29",
         "bytes": 121070
       }
     }
@@ -41078,7 +41067,6 @@
   "repaired": false,
   "external": {
     "trust": "untrusted_external",
-    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "chars": 0,
     "flags": [],
     "quarantined": false,
@@ -41087,48 +41075,42 @@
   "evidence": [
     {
       "id": "E-BACKTEST",
-      "title": "Sarkaz V3F 连续历史回测",
+      "title": "RCM-3F 连续历史回测",
       "source": "research/operations/v3f_full_history_2026-10-03/REPORT_CN.md",
       "trust": "archived_research",
-      "text": "冻结 SarkazV3F 在连续账户中运行，原生回测 922 笔，单边手续费 5 bps，未计资金费；已实现权益在平仓时确认。全历史包含开发及后续观察区间。公开样本保留逐笔净利润与全部成交名义金额。",
-      "source_hash": "e9af77e377fb2ecd96754b43c19941b0447a098b766a2075f5ba42b1b767c86b"
+      "text": "固定规则的 RCM-3F 在连续账户中运行，原生回测 922 笔，单边手续费 5 bps，未计资金费；已实现权益在平仓时确认。全历史包含开发及后续观察区间。公开样本保留逐笔净利润与全部成交名义金额。"
     },
     {
       "id": "E-METRICS",
       "title": "账户收益与成本核验口径",
       "source": "research_agent/metrics.py + audit.py",
       "trust": "deterministic_contract",
-      "text": "收益由平仓利润重建；CAGR 使用原生有效回测日数的 365 日年化；Sharpe 使用每日账户收益的样本标准差与 sqrt(365)。成本情景按每笔全部进出及加仓成交名义金额追加成本，并在该笔平仓时入账。固定交易路径，不重新求解仓位。",
-      "source_hash": "aa2c0330f7ed7a8c9fbddcaf52e2bf3dc4c742464a8caa7f8f91294a31fd85c4"
+      "text": "收益由平仓利润重建；CAGR 使用原生有效回测日数的 365 日年化；Sharpe 使用每日账户收益的样本标准差与 sqrt(365)。成本情景按每笔全部进出及加仓成交名义金额追加成本，并在该笔平仓时入账。固定交易路径，不重新求解仓位。"
     },
     {
       "id": "E-STRATEGY",
       "title": "动量研究规则与风险表达",
       "source": "user_data/strategies/SarkazV3F.py; research/operations/v3f_original_oos_resume_2026-10-03/MARKET_ACHIEVEMENTS.md",
       "trust": "archived_research",
-      "text": "策略以成交活跃度、结构突破和市场状态过滤组织入场，下一根 K 线收盘确认；初始风险锚点贯穿盈利加仓及跟踪退出。工程工作台复用冻结回测资产，不承担交易执行。",
-      "source_hash": "17ea26bf525314ee13d7f3a6c7345ed8c16d4e285786ac60fe7d6a24f90f7839"
+      "text": "RCM-3F 以 Signal K、异常成交量、结构突破和 Regime V2 组织入场。延迟一根完成 K 线后进入，下一收盘强弱用于有限风险权重；弱确认仍可交易。+1R 后单次加仓，保本锚定原入场价，前 4h 低点跟踪，最长 24h。动态 Bayes 门槛和 XGBoost 状态属于研究分支，未进入最终入场规则。"
     },
     {
       "id": "E-ENGINEERING",
       "title": "原交易系统的工程模块",
       "source": "WORKSPACE_ASSET_MAP.md; scripts/maintenance/build_freqtrade_dryrun_stack.py; deployments/dryrun-telegram-monitor/ftdry.py",
       "trust": "archived_research",
-      "text": "既有系统具有 Freqtrade/CCXT 交易接口集成、Docker 双容器部署、各自独立 SQLite 状态与 REST 只读监控。已归档发布报告记录 dry-run 云端运行。工作台通过离线资产适配器接入研究结果。",
-      "source_hash": "392a379ff693809e9f2b4cf7c17a854b37e8329b6d13ab74b22d0c690c2c65ae"
+      "text": "既有系统具有 Freqtrade/CCXT 交易接口集成、Docker 双容器部署、各自独立 SQLite 状态与 REST 只读监控。已归档发布报告记录 dry-run 云端运行。工作台通过离线资产适配器接入研究结果。"
     },
     {
       "id": "E-CONTEXT",
       "title": "研究上下文与实验身份",
-      "source": "research_core/policy.py; research_core/registry.py; research/RESEARCH_HANDOFF.md",
+      "source": "research/chronicle.json; docs/AGENT_RESEARCH.md",
       "trust": "archived_research",
-      "text": "原研究控制面以时间分区、假设编号、实验账本和代码/数据指纹维护上下文。本次以输入快照、版本化 Prompt、证据表与逐节点轨迹把同样的思想应用到研究 Agent。",
-      "source_hash": "38771b843b12cf14087fefc19ab0650a8d5e672007b777c01a810fb2dd4f5a52"
+      "text": "研究控制面用时间分区、假设编号、实验账本和去留裁决维护上下文。48 个研究节点覆盖早期策略、因子替代、仓位管理、状态模型与执行复盘，按问题、方法、证据和决定组织。"
     }
   ],
   "prompt": {
-    "version": "researcher.v2",
-    "sha256": "9e2bae95c43ccfe0c64c5e399ff7186548849118018e3d6d437e06d89d96c524"
+    "version": "researcher.v2"
   },
   "model": null,
   "artifacts": {
@@ -41139,7 +41121,7 @@
   "trace": [
     {
       "sequence": 1,
-      "time_utc": "2026-10-13T11:33:45.983743+00:00",
+      "time_utc": "2026-10-13T13:06:53.901301+00:00",
       "node": "plan",
       "action": "freeze_research_scope",
       "status": "ok",
@@ -41162,41 +41144,37 @@
           "独立复核",
           "研究报告"
         ],
-        "dataset": "sarkaz-v3f-history-20261003-v1",
+        "dataset": "rcm-3f-history-20261003-v1",
         "question_handling": "固定的历史绩效/成本研究模板；自定义问题作为标题保存",
         "mode": "offline"
-      },
-      "output_sha256": "7e8311dfe68a7933ee60ff06807689a38635ae633fa8c09300d5d922e4b2c4bb"
+      }
     },
     {
       "sequence": 2,
-      "time_utc": "2026-10-13T11:33:45.986418+00:00",
+      "time_utc": "2026-10-13T13:06:53.904026+00:00",
       "node": "context",
       "action": "classify_external_document",
       "status": "ok",
       "elapsed_ms": 0,
       "input": {
         "chars": 0,
-        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "scenario": "normal"
       },
       "output": {
         "trust": "untrusted_external",
-        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "chars": 0,
         "flags": [],
         "quarantined": false,
         "model_text": ""
-      },
-      "output_sha256": "0fef5bc2e4cb6765ba5213c211acd7af09d88aaf0e01d4a98b6aa764100bd141"
+      }
     },
     {
       "sequence": 3,
-      "time_utc": "2026-10-13T11:33:46.007632+00:00",
+      "time_utc": "2026-10-13T13:06:53.924088+00:00",
       "node": "analysis",
       "action": "read_market",
       "status": "ok",
-      "elapsed_ms": 20.17,
+      "elapsed_ms": 19.16,
       "input": {
         "asset": "BTC/USDT:USDT",
         "start": "2020-01-01T00:00:00+00:00",
@@ -41267,16 +41245,15 @@
             "candle_count": 288
           }
         ]
-      },
-      "output_sha256": "592dc515255c67a4fc197cc6955b9b9715716302b345e4300058c2addf8ec863"
+      }
     },
     {
       "sequence": 4,
-      "time_utc": "2026-10-13T11:33:46.008894+00:00",
+      "time_utc": "2026-10-13T13:06:53.924680+00:00",
       "node": "analysis",
       "action": "read_backtest",
       "status": "ok",
-      "elapsed_ms": 0.09,
+      "elapsed_ms": 0.07,
       "input": {
         "asset": "BTC/USDT:USDT",
         "start": "2020-01-01T00:00:00+00:00",
@@ -41284,8 +41261,8 @@
       },
       "output": {
         "evidence_id": "E-BACKTEST",
-        "dataset_id": "sarkaz-v3f-history-20261003-v1",
-        "strategy": "SarkazV3F",
+        "dataset_id": "rcm-3f-history-20261003-v1",
+        "strategy": "RCM-3F",
         "engine": "Freqtrade",
         "engine_timeframe": "5m",
         "start": "2020-01-01T00:00:00+00:00",
@@ -41295,19 +41272,16 @@
         "base_fee_bps_per_side": 5.0,
         "funding": "excluded",
         "equity_basis": "closed_trade_realized",
-        "code_fingerprint": "a81d363128dea6d548be03e3da217a8f67e2f49060c2844c05c05ee54f0728f8",
-        "source_archive_sha256": "a5417859c9f541a0f8814e46a67c02766f160821a4e5e306fac3bd29d1b95f96",
         "ledger_trades": 922
-      },
-      "output_sha256": "aff91853fde2065d8924339eb9700bea7e5327d1c5f6a069c05d946fd9c90188"
+      }
     },
     {
       "sequence": 5,
-      "time_utc": "2026-10-13T11:33:46.033632+00:00",
+      "time_utc": "2026-10-13T13:06:53.950456+00:00",
       "node": "analysis",
       "action": "calculate_metrics",
       "status": "ok",
-      "elapsed_ms": 24.19,
+      "elapsed_ms": 25.47,
       "input": {
         "fee_bps": 5.0,
         "slippage_bps": 0.0
@@ -41341,16 +41315,15 @@
           "cost_model": "fixed fill notional; extra cost recognized on trade close; no resizing or funding"
         },
         "calc_version": "ledger-metrics-v1.0.0"
-      },
-      "output_sha256": "87ec891b140ddcb1bc1c4c1de55e971cc7cf1d4851e6cda713e8bb8b890af240"
+      }
     },
     {
       "sequence": 6,
-      "time_utc": "2026-10-13T11:33:46.107527+00:00",
+      "time_utc": "2026-10-13T13:06:54.045553+00:00",
       "node": "analysis",
       "action": "compare_costs",
       "status": "ok",
-      "elapsed_ms": 73.33,
+      "elapsed_ms": 94.54,
       "input": {},
       "output": {
         "evidence_id": "CALC-COST",
@@ -41414,65 +41387,59 @@
             }
           }
         ]
-      },
-      "output_sha256": "17a2bf5e6480fe899168c850d7bbb2797fefb2467e877772ec7f1c4fb902815f"
+      }
     },
     {
       "sequence": 7,
-      "time_utc": "2026-10-13T11:33:46.108270+00:00",
+      "time_utc": "2026-10-13T13:06:54.046220+00:00",
       "node": "analysis",
       "action": "search_evidence",
       "status": "ok",
-      "elapsed_ms": 0.12,
+      "elapsed_ms": 0.11,
       "input": {
         "query": "风险 成本 工程"
       },
       "output": {
         "results": [
           {
-            "id": "E-STRATEGY",
-            "title": "动量研究规则与风险表达",
-            "source": "user_data/strategies/SarkazV3F.py; research/operations/v3f_original_oos_resume_2026-10-03/MARKET_ACHIEVEMENTS.md",
-            "trust": "archived_research",
-            "text": "策略以成交活跃度、结构突破和市场状态过滤组织入场，下一根 K 线收盘确认；初始风险锚点贯穿盈利加仓及跟踪退出。工程工作台复用冻结回测资产，不承担交易执行。",
-            "source_hash": "17ea26bf525314ee13d7f3a6c7345ed8c16d4e285786ac60fe7d6a24f90f7839"
-          },
-          {
             "id": "E-METRICS",
             "title": "账户收益与成本核验口径",
             "source": "research_agent/metrics.py + audit.py",
             "trust": "deterministic_contract",
-            "text": "收益由平仓利润重建；CAGR 使用原生有效回测日数的 365 日年化；Sharpe 使用每日账户收益的样本标准差与 sqrt(365)。成本情景按每笔全部进出及加仓成交名义金额追加成本，并在该笔平仓时入账。固定交易路径，不重新求解仓位。",
-            "source_hash": "aa2c0330f7ed7a8c9fbddcaf52e2bf3dc4c742464a8caa7f8f91294a31fd85c4"
+            "text": "收益由平仓利润重建；CAGR 使用原生有效回测日数的 365 日年化；Sharpe 使用每日账户收益的样本标准差与 sqrt(365)。成本情景按每笔全部进出及加仓成交名义金额追加成本，并在该笔平仓时入账。固定交易路径，不重新求解仓位。"
+          },
+          {
+            "id": "E-STRATEGY",
+            "title": "动量研究规则与风险表达",
+            "source": "user_data/strategies/SarkazV3F.py; research/operations/v3f_original_oos_resume_2026-10-03/MARKET_ACHIEVEMENTS.md",
+            "trust": "archived_research",
+            "text": "RCM-3F 以 Signal K、异常成交量、结构突破和 Regime V2 组织入场。延迟一根完成 K 线后进入，下一收盘强弱用于有限风险权重；弱确认仍可交易。+1R 后单次加仓，保本锚定原入场价，前 4h 低点跟踪，最长 24h。动态 Bayes 门槛和 XGBoost 状态属于研究分支，未进入最终入场规则。"
           },
           {
             "id": "E-ENGINEERING",
             "title": "原交易系统的工程模块",
             "source": "WORKSPACE_ASSET_MAP.md; scripts/maintenance/build_freqtrade_dryrun_stack.py; deployments/dryrun-telegram-monitor/ftdry.py",
             "trust": "archived_research",
-            "text": "既有系统具有 Freqtrade/CCXT 交易接口集成、Docker 双容器部署、各自独立 SQLite 状态与 REST 只读监控。已归档发布报告记录 dry-run 云端运行。工作台通过离线资产适配器接入研究结果。",
-            "source_hash": "392a379ff693809e9f2b4cf7c17a854b37e8329b6d13ab74b22d0c690c2c65ae"
+            "text": "既有系统具有 Freqtrade/CCXT 交易接口集成、Docker 双容器部署、各自独立 SQLite 状态与 REST 只读监控。已归档发布报告记录 dry-run 云端运行。工作台通过离线资产适配器接入研究结果。"
           },
           {
             "id": "E-BACKTEST",
-            "title": "Sarkaz V3F 连续历史回测",
+            "title": "RCM-3F 连续历史回测",
             "source": "research/operations/v3f_full_history_2026-10-03/REPORT_CN.md",
             "trust": "archived_research",
-            "text": "冻结 SarkazV3F 在连续账户中运行，原生回测 922 笔，单边手续费 5 bps，未计资金费；已实现权益在平仓时确认。全历史包含开发及后续观察区间。公开样本保留逐笔净利润与全部成交名义金额。",
-            "source_hash": "e9af77e377fb2ecd96754b43c19941b0447a098b766a2075f5ba42b1b767c86b"
+            "text": "固定规则的 RCM-3F 在连续账户中运行，原生回测 922 笔，单边手续费 5 bps，未计资金费；已实现权益在平仓时确认。全历史包含开发及后续观察区间。公开样本保留逐笔净利润与全部成交名义金额。"
           }
         ],
         "retrieval": "bounded lexical ranking over curated evidence; no embedding index"
-      },
-      "output_sha256": "411a30070d40cf143a2d71b28c4f8bf3ea37edd1e8aed2e824e7f006e16e6c67"
+      }
     },
     {
       "sequence": 8,
-      "time_utc": "2026-10-13T11:33:46.108780+00:00",
+      "time_utc": "2026-10-13T13:06:54.046661+00:00",
       "node": "analysis",
       "action": "read_evidence",
       "status": "ok",
-      "elapsed_ms": 0.07,
+      "elapsed_ms": 0.06,
       "input": {
         "evidence_id": "E-STRATEGY"
       },
@@ -41481,14 +41448,12 @@
         "title": "动量研究规则与风险表达",
         "source": "user_data/strategies/SarkazV3F.py; research/operations/v3f_original_oos_resume_2026-10-03/MARKET_ACHIEVEMENTS.md",
         "trust": "archived_research",
-        "text": "策略以成交活跃度、结构突破和市场状态过滤组织入场，下一根 K 线收盘确认；初始风险锚点贯穿盈利加仓及跟踪退出。工程工作台复用冻结回测资产，不承担交易执行。",
-        "source_hash": "17ea26bf525314ee13d7f3a6c7345ed8c16d4e285786ac60fe7d6a24f90f7839"
-      },
-      "output_sha256": "eb13da9a9b4fbf211328271c52c78c0d8ba0e497531056d109ddf7acd09e5be5"
+        "text": "RCM-3F 以 Signal K、异常成交量、结构突破和 Regime V2 组织入场。延迟一根完成 K 线后进入，下一收盘强弱用于有限风险权重；弱确认仍可交易。+1R 后单次加仓，保本锚定原入场价，前 4h 低点跟踪，最长 24h。动态 Bayes 门槛和 XGBoost 状态属于研究分支，未进入最终入场规则。"
+      }
     },
     {
       "sequence": 9,
-      "time_utc": "2026-10-13T11:33:46.109611+00:00",
+      "time_utc": "2026-10-13T13:06:54.047532+00:00",
       "node": "draft",
       "action": "compose_structured_claims",
       "status": "ok",
@@ -41559,12 +41524,11 @@
           "E-BACKTEST",
           "E-STRATEGY"
         ]
-      },
-      "output_sha256": "f49dad178adc5a75e4b24bc4558ecba132eb627eae1c92c0e906303b782f7be3"
+      }
     },
     {
       "sequence": 10,
-      "time_utc": "2026-10-13T11:33:46.196051+00:00",
+      "time_utc": "2026-10-13T13:06:54.155224+00:00",
       "node": "review",
       "action": "independent_numeric_review",
       "status": "passed",
@@ -41579,12 +41543,11 @@
         "findings": [],
         "reviewer": "independent-python-review-v1",
         "cost_scenarios_verified": 3
-      },
-      "output_sha256": "4c9fb502cb6f10e8e177fa79d99a601c2582a1ad00fd961990ea03341ecbf3a8"
+      }
     },
     {
       "sequence": 11,
-      "time_utc": "2026-10-13T11:33:46.211258+00:00",
+      "time_utc": "2026-10-13T13:06:54.171936+00:00",
       "node": "export",
       "action": "render_cited_report",
       "status": "ok",
@@ -41600,8 +41563,7 @@
         "review_passed": true,
         "report": "report.html",
         "numeric_claims": 9
-      },
-      "output_sha256": "1fe51f808f0e7ddc72003d952f0bf28d4261bf5e55bd78e4aaab41910d42389e"
+      }
     }
   ],
   "implementation": {
@@ -41613,22 +41575,6 @@
       "numpy": "2.4.1",
       "plotly": "6.5.2",
       "pydantic": "2.13.4"
-    },
-    "source_sha256": {
-      "research_agent/__init__.py": "b57602864a3ae18a48e880f07e1153dc1af515ac269f1f7145183c94b2f53e21",
-      "research_agent/analytics.py": "7ab6c07028860f0f66fadf50934171e84f7602178e12a0ab5f548ea24ae8ca47",
-      "research_agent/audit.py": "e5114ac06b943fbcf7da112679fc09f5d42dc11f7ed80ca3822725a91188adf7",
-      "research_agent/cli.py": "9b4527d7ac06f5416a5812622926df3c459ec472c682bbe9d15fb81ce4af5249",
-      "research_agent/data.py": "a032b991b23912ce6a5a047acaaeff9356302bc33d3ad4810ef66e661be77635",
-      "research_agent/evaluation.py": "723201e9ff1c2eafe051a375f453c79666fa056e001cbaabfd4709172825a3cf",
-      "research_agent/metrics.py": "896c8214d1b3ed315c4a4b4df1da04a481da0e44aafecf67fcf22752b6d2b9fe",
-      "research_agent/models.py": "010fa61a01e6eecfb42fa907b5c34a6b972f94eb63c6852c525dbb2fe87d5db9",
-      "research_agent/provider.py": "100ef24597e90c816520662fd9d9dbfd8bbe5724bf68ace03260f17f4f73ca48",
-      "research_agent/reporting.py": "7ce26cfbafa2fe90fcfe4d60c3838a12e33d374de93534381ced4483cb2fb699",
-      "research_agent/security.py": "9b377547ffce178762131a958b9e8d657e49e26318bcb27246ebe2af9e67afa6",
-      "research_agent/server.py": "d1a99fa4e908f01329294bf6c16934f3acfdef57d2f574d00438dc373672bff6",
-      "research_agent/tools.py": "4fa449785a73391b30a30197661896b9a3b4a861566c16843a53af14a6d83c71",
-      "research_agent/workflow.py": "fd1239880f9b0cb03dd71b637f3aedfb11718f7cb35000b7a77b6a161481e007"
     }
   }
 }

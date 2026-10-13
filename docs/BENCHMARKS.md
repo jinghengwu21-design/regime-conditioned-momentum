@@ -1,30 +1,30 @@
-# Design references
+# 设计与研究系统参考
 
-SARKAZ combines a strategy research terminal with an auditable Agent runtime. The following projects informed its information architecture and module boundaries. Their code is not vendored into the application.
+RCM 的信息结构围绕策略研究展开：先解释问题和研究过程，再提供保留策略、失败档案、账户分析及工程运行。参考项目分别贡献金融信息组织、交互模式和研究循环的方法，应用代码独立实现。
 
-Repository and source review: 13 October 2026.
+审阅日期：2026-10-13。
 
-| Reference | Material reviewed | Applied in SARKAZ |
+| 参考 | 审阅材料 | 在 RCM 中的应用 |
 |---|---|---|
-| [OpenBB Workspace](https://github.com/OpenBB-finance/workspace) | React workspace layout, [`Metric.tsx`](https://github.com/OpenBB-finance/workspace/blob/be00e95019a55d57af146919ee46b7e1a4859226/terminalpro/src/components/Widgets/Metric.tsx), theme state | Persistent navigation, consistent widget headings, stable research scope and coherent financial number formatting |
-| [QuantStats](https://github.com/ranaroussi/quantstats) | [`stats.py`](https://github.com/ranaroussi/quantstats/blob/9ef4c6d0a4ffe7831f6ebba6a5824fd33a90c05a/quantstats/stats.py): monthly returns, rolling Sharpe and drawdown episodes; report template | A complete performance view: cumulative path, benchmark, underwater chart, calendar returns and recovery periods |
-| [FinRobot](https://github.com/AI4Finance-Foundation/FinRobot) | [Desktop architecture](https://github.com/AI4Finance-Foundation/FinRobot/blob/2717499b8e30f242640af08c4ad9afd1113c2d45/finrobot_desktop/README.md), pipeline base and narrative numeric grounding operator | Keep computation, narrative and review separate; expose the rejected draft and the tool result that corrects it |
-| [TradingAgents](https://github.com/TauricResearch/TradingAgents) | README, version history and point-in-time data discussion | Treat dataset time, run time and analysis scope as separate identities; show the recorded execution time |
+| [Wealthfolio](https://github.com/wealthfolio/wealthfolio) | [产品界面](https://wealthfolio.app)中的账户、曲线、明细与金融信息层级 | 浅色纸面、低对比网格、清晰数值与细分隔线；权益图附单位和口径 |
+| [shadcn/ui](https://github.com/shadcn-ui/ui) | [Dashboard 示例](https://ui.shadcn.com/examples/dashboard)的表格、筛选、选择与操作布局 | 研究档案的组合筛选、清楚的选择状态、双研究比较、轻量对话框 |
+| [Microsoft RD-Agent](https://github.com/microsoft/RD-Agent) | [项目说明](https://github.com/microsoft/RD-Agent/blob/main/README.md)中的 research／development 分工与因子—模型迭代 | 将问题、规格、实现、实验、反馈和研究记忆串成可逐阶段阅读的循环 |
+| [QuantStats](https://github.com/ranaroussi/quantstats) | `stats.py` 中月度收益、滚动 Sharpe、回撤片段和报告结构 | 完整账户附件：权益、市场参照、underwater、月度复合收益与恢复时间 |
+| [OpenBB Workspace](https://github.com/OpenBB-finance/workspace) | 归档项目的 React 工作区与指标组件 | 统一分析区间、度量口径和可下钻工作区 |
+| [FinRobot](https://github.com/AI4Finance-Foundation/FinRobot) | 桌面架构、pipeline 与叙述数值绑定 | 计算、叙述、独立复核分层；保留原结论与修正轨迹 |
 
-OpenBB Workspace was archived when reviewed. It is a design reference, not a runtime dependency. The other repositories are also references rather than claims of affiliation.
+Wealthfolio、shadcn/ui 和 RD-Agent 分别提供成熟金融产品、广泛使用的界面组件和研究自动化的参考视角。采用它们的信息与交互思想，没有搬运品牌、截图或项目绩效。
 
-## Decisions
+## 信息与视觉取舍
 
-**Strategy before orchestration.** The first screen answers how the strategy performed and where its risk lies. Agent traces have their own workspace. A visitor can reach an individual trade directly from a monthly return cell.
+**研究过程作为首页。** 首屏陈述条件动量问题，并显示保留策略的真实账户曲线。下面按执行基线、规则形成、扩展反证和持续复核组织阅读。
 
-**One calculation contract across surfaces.** Python builds the full research dataset. Browser cost scenarios use the same fill-notional formula and are tested against Python outputs across four periods and three fee levels.
+**把失败当作研究资料。** 48 个节点都有问题、方法、结果和裁决。档案可以按家族、状态和文本组合过滤，可以把两项研究并排比较并导出结果。
 
-**Two deployment surfaces.** GitHub Pages hosts the interactive research snapshot without a server or credentials. The local Python service executes the same LangGraph workflow and exposes the trace to the same React interface. A recorded trace is always labelled as recorded.
+**用不同版式表达不同材料。** 首页使用长文式布局，机制使用展开条目，实验过程使用阶段导航，账户采用图表与表格。页间共享字体、间距、细线和颜色语义。
 
-**Use financial conventions deliberately.** The benchmark is an unlevered BTC price reference, aligned to complete daily bars. Trade win rate remains trade-based; daily Sharpe remains calendar-based. An open drawdown stays unrecovered at the observation boundary.
+**颜色服务金融含义。** 深灰文字、蓝灰操作、低饱和绿色曲线；收益、损失和研究裁决同时附有文字或符号。自托管 Inter 与 IBM Plex Mono 用于界面和数值，Georgia 用于少量标题。
 
-**Restrained visual hierarchy.** Graphite surfaces, tabular numbers, muted grid lines and a small semantic palette make changes in equity, loss and scenario assumptions legible. Colour is accompanied by labels, signs and units. Fonts ship with the application.
+**来源保持可读。** 研究编号、报告路径、样本窗口、费用与版本足以定位结果。代码目录、数据清单和调用轨迹提供工程细节。
 
-## Boundaries of reuse
-
-The application, calculations and UI are original project code. Open-source references are credited here; dependencies retain their own licenses in [THIRD_PARTY_NOTICES](../THIRD_PARTY_NOTICES.md). SARKAZ does not reuse their branding, screenshots, claims of adoption or research results.
+依赖许可见 [THIRD_PARTY_NOTICES](../THIRD_PARTY_NOTICES.md)。参考项目不是运行时依赖；Wealthfolio 的 AGPL 代码未纳入本仓库。

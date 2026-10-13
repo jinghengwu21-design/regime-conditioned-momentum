@@ -1,8 +1,8 @@
-# Sarkaz V3F · 绩效与成本研究
+# RCM-3F · 绩效与成本研究
 
 **研究问题：** BTC 动量策略的历史表现有多稳健？提高交易成本后，收益和回撤如何变化？
 
-运行：`20261013T113351Z-db513dc7` · 确定性研究 · 记录时间 2026-10-13T11:33:51.896017+00:00
+运行：`20261013T130911Z-8ba9c6ef` · 确定性研究 · 记录时间 2026-10-13T13:09:11.273732+00:00
 
 资产：BTC/USDT:USDT；实际统计区间 [2020-01-01T00:00:00+00:00, 2026-10-03T12:05:00+00:00)，UTC。
 单边手续费 5 bps，逐成交附加滑点 0 bps；平仓权益；资金费未计入。
@@ -41,7 +41,7 @@
 
 ## 数据与计算口径
 
-代码版本：`ledger-metrics-v1.0.0`；数据集：`sarkaz-v3f-history-20261003-v1`。
+代码版本：`ledger-metrics-v1.0.0`；数据集：`rcm-3f-history-20261003-v1`。
 CAGR 沿用原生有效回测区间的整数日数，365 日年化；Sharpe 由 UTC 每日账户收益计算，标准差使用 ddof=1。子区间起始权益承接原账户，按平仓时点选择交易。
 成本敏感性不重新执行交易信号或仓位，不能解释为含延迟和市场冲击的重新回测。
 
@@ -56,11 +56,11 @@ CAGR 沿用原生有效回测区间的整数日数，365 日年化；Sharpe 由 
 
 | 编号 | 来源 | 定位 |
 |---|---|---|
-| E-BACKTEST | Sarkaz V3F 连续历史回测 | research/operations/v3f_full_history_2026-10-03/REPORT_CN.md |
+| E-BACKTEST | RCM-3F 连续历史回测 | research/operations/v3f_full_history_2026-10-03/REPORT_CN.md |
 | E-METRICS | 账户收益与成本核验口径 | research_agent/metrics.py + audit.py |
 | E-STRATEGY | 动量研究规则与风险表达 | user_data/strategies/SarkazV3F.py; research/operations/v3f_original_oos_resume_2026-10-03/MARKET_ACHIEVEMENTS.md |
 | E-ENGINEERING | 原交易系统的工程模块 | WORKSPACE_ASSET_MAP.md; scripts/maintenance/build_freqtrade_dryrun_stack.py; deployments/dryrun-telegram-monitor/ftdry.py |
-| E-CONTEXT | 研究上下文与实验身份 | research_core/policy.py; research_core/registry.py; research/RESEARCH_HANDOFF.md |
+| E-CONTEXT | 研究上下文与实验身份 | research/chronicle.json; docs/AGENT_RESEARCH.md |
 | CALC-BASE | 账户指标计算 | result.json → base；trace.jsonl → calculate_metrics |
 | CALC-COST | 成交成本情景 | result.json → costs；trace.jsonl → compare_costs |
 | E-MARKET | OKX 历史行情附件 | market_daily.csv；manifest.json → market_sources |

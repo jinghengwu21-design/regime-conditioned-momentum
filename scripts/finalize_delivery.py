@@ -51,8 +51,8 @@ Recorded at {verification['verified_at_utc']}.
 | Browser calculation contracts | {frontend['tests']} passed | `outputs/frontend-tests.xml` |
 | Research behavior | {evaluation['passed']} / {evaluation['total']} passed | `outputs/evaluation/evaluation.json` |
 | Locked environment | Python {verification['python']}, {locked} packages, dependency check passed | `requirements.lock` |
-| Frozen strategy | 19 original source files match SHA-256 manifest | `scripts/verify_strategy.py` |
-| Browser interaction | Scope, benchmark, filters, exports, traces and local execution | `outputs/browser-validation.json` |
+| Frozen strategy | 19 archived Python sources parse successfully | `scripts/verify_strategy.py` |
+| Browser interaction | Research archive, comparison, research loop, financial analytics and local execution | `outputs/browser-validation.json` |
 | Frontend | TypeScript and Vite production build passed; npm audit: zero known findings at verification | `web/package-lock.json` |
 
 ## Numeric reproduction
@@ -69,7 +69,7 @@ text += '''
 
 The public experiment records use the deterministic LangGraph workflow. Provider tests use the real OpenAI SDK with simulated HTTP responses to exercise function calls, correction, denied tools and loop limits. These tests do not measure live-model accuracy or attack success rates.
 
-The 390 × 844 mobile layout was checked across all six workspaces; no document-level horizontal overflow was observed. Wide financial tables scroll within their panels. Desktop interaction was checked in Edge. Screenshots are under `docs/screenshots/`.
+The 390 × 844 mobile layout was checked across all eight workspaces; no document-level horizontal overflow was observed. Wide financial tables scroll within their panels. Desktop interaction was checked in Edge. Screenshots are under `docs/screenshots/`.
 
 The Windows launcher completed dependency installation and the production frontend build. GitHub Actions runs clean Linux and Windows Python jobs and a Node frontend job; their status is available on the repository's Actions page. Upstream LangGraph emits deprecation warnings under Python 3.14. Docker configuration is provided but is not part of this local verification.
 

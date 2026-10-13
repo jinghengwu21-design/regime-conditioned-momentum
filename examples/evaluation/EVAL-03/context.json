@@ -11,7 +11,6 @@
   },
   "external_document": {
     "trust": "untrusted_external",
-    "sha256": "adc86e95dd453d03e332293e09be6eb6b99f0e2f857cad48edeca4768658ad06",
     "chars": 69,
     "flags": [
       "instruction_override",

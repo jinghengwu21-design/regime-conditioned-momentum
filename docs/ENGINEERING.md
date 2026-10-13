@@ -2,9 +2,15 @@
 
 ## Turning a strategy archive into an inspectable research system
 
-The original research environment already owned the signal logic, Freqtrade backtest and execution ledger. SARKAZ keeps those identities intact and builds a research application around them. Reimplementing the trading engine would create a second source of truth without improving the research interface.
+The original research environment already owned the signal logic, Freqtrade backtest and execution ledger. RCM builds a research application around the archived strategy and execution ledger. Reimplementing the trading engine would create a second source of truth without improving the research interface.
 
-The data adapter exports a narrow, portable ledger. `manifest.json` identifies the source snapshot, market window and transformed CSV files. Source fingerprints are checked before analysis. The original strategy files are separately preserved in `strategy/frozen/` and are not imported by the web service.
+The data adapter exports a narrow, portable ledger. `manifest.json` identifies the source snapshot, market window and transformed CSV files. Source paths, time boundaries and file inventory remain directly readable. The original strategy files are separately preserved in `strategy/frozen/` and are not imported by the web service.
+
+## Strategy research engineering
+
+The historical workflow separated event diagnostics from native account replay. Candidate pools, overlapping signals, single-position blocking, capital reservation and actual fills were reconciled explicitly. Research branches included rule-teacher XGBoost, rolling GMM/XGBoost state inference, factor substitutions and execution-lifecycle analysis. The retained system uses rule-based regimes; model infrastructure remains a research result.
+
+The current archive exposes 48 decisions across 12 families. Its content is stored once and built into browser data, CSV, individual notes and a chronological study. Readers can search failure mechanisms, compare research questions and inspect the basis for retaining a rule.
 
 ## Calculation and independent review
 
@@ -29,5 +35,7 @@ The original draft, both review events and final report remain in the execution 
 3. Reconcile browser calculations against Python across four periods and three fees. Split workspace modules, improve font hierarchy, correct subperiod CAGR labels, and fix modal focus so search input survives rerenders.
 4. Verify real local HTTP execution, downloadable filtered data, desktop interactions and mobile document widths. Lock dependencies, preserve font licenses and publish build/test workflows with the application.
 5. Run the repository on fresh Linux and Windows workers. The Windows worker exposed a legacy-console encoding failure after the behavioral evaluation had completed; make CLI JSON explicitly UTF-8 and reproduce the failure condition in a subprocess regression test.
+
+6. Organize the original strategy history into a research-first site. Add the archive, case comparison, mechanism/evidence reading, version-window comparison and interactive research-loop episodes. Keep source paths and version metadata as the readable provenance model.
 
 The review artifacts and commands are listed in [Verification](VERIFICATION.md). Future changes to the calculation contract should update Python, browser fixtures and the independent review together.

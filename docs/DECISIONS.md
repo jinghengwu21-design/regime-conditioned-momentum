@@ -22,7 +22,7 @@ The account ledger extends beyond the last complete packaged market day. The ben
 
 ## ADR 005 — Preserve strategy identity
 
-The 19-file strategy snapshot is retained byte-for-byte rather than flattening the inheritance chain during a UI refactor. A dedicated checksum verifier protects that identity. Readable documentation explains the active path; inactive research variants remain source history, not extra terminal strategies.
+The 19-file strategy snapshot retains the historical inheritance chain and class names. The source manifest lists files and the archived strategy class; verification checks Python syntax. Current documentation explains the active rule path and maps it to the RCM-3F research name.
 
 ## ADR 006 — Evaluation at three interfaces
 
