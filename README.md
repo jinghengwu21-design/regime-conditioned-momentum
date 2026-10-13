@@ -55,7 +55,7 @@ Windows 一键安装、构建并启动：
 powershell -NoProfile -File .\scripts\start.ps1
 ```
 
-打开 **http://127.0.0.1:8507**。默认读取冻结研究数据；Agent 实验室可以执行新的本地研究。
+打开[本地研究终端](http://127.0.0.1:8507)。默认读取冻结研究数据；Agent 实验室可以执行新的本地研究。
 
 macOS / Linux：
 
