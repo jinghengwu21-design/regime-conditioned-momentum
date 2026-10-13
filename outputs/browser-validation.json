@@ -4,15 +4,59 @@
   "desktop_viewport": "1528 x 686",
   "mobile_viewport": "390 x 844",
   "checks": [
-    {"case": "2026 scope", "observed": "105 trades, +0.55% return, CAGR label scoped correctly", "passed": true},
-    {"case": "benchmark and LOG", "observed": "Matched full-day BTC reference and logarithmic axis toggle", "passed": true},
-    {"case": "monthly drilldown", "observed": "May 2024 selects 18 trades", "passed": true},
-    {"case": "combined filter and CSV", "observed": "May 2024 profitable trades: 5 rows; exported CSV has 5 rows sorted by P&L", "passed": true},
-    {"case": "trade detail", "observed": "T0573: two entries and one exit, P&L 918.64111757 USDT", "passed": true},
-    {"case": "cost presets", "observed": "8 bps: 11034.63 USDT; 12 bps: 1993.08 USDT", "passed": true},
-    {"case": "local numeric injection", "observed": "Run 20261013T113828Z-40b308c6: 1781.58% rejected, 1681.58% repaired; two reviews", "passed": true},
-    {"case": "recorded experiments", "observed": "Injected document quarantined; one missing day; execute_shell denied", "passed": true},
-    {"case": "command search", "observed": "T0900 search keeps input focus and navigates to one matching trade", "passed": true},
-    {"case": "mobile workspaces", "observed": "All six pages: innerWidth 390, scrollWidth 390; viewport restored after testing", "passed": true}
-  ]
+    {
+      "case": "2026 scope",
+      "observed": "105 trades, +0.55% return, CAGR label scoped correctly",
+      "passed": true
+    },
+    {
+      "case": "benchmark and LOG",
+      "observed": "Matched full-day BTC reference and logarithmic axis toggle",
+      "passed": true
+    },
+    {
+      "case": "monthly drilldown",
+      "observed": "May 2024 selects 18 trades",
+      "passed": true
+    },
+    {
+      "case": "combined filter and CSV",
+      "observed": "May 2024 profitable trades: 5 rows; exported CSV has 5 rows sorted by P&L",
+      "passed": true
+    },
+    {
+      "case": "trade detail",
+      "observed": "T0573: two entries and one exit, P&L 918.64111757 USDT",
+      "passed": true
+    },
+    {
+      "case": "cost presets",
+      "observed": "8 bps: 11034.63 USDT; 12 bps: 1993.08 USDT",
+      "passed": true
+    },
+    {
+      "case": "local numeric injection",
+      "observed": "Run 20261013T113828Z-40b308c6: 1781.58% rejected, 1681.58% repaired; two reviews",
+      "passed": true
+    },
+    {
+      "case": "recorded experiments",
+      "observed": "Injected document quarantined; one missing day; execute_shell denied",
+      "passed": true
+    },
+    {
+      "case": "command search",
+      "observed": "T0900 search keeps input focus and navigates to one matching trade",
+      "passed": true
+    },
+    {
+      "case": "mobile workspaces",
+      "observed": "All six pages: innerWidth 390, scrollWidth 390; viewport restored after testing",
+      "passed": true
+    }
+  ],
+  "public_site": {
+    "url": "https://jinghengwu21-design.github.io/sarkaz-research/",
+    "observed": "Overview, strategy, risk and Agent workspaces render; public execution is labelled recorded with no execution controls; standalone HTML report opens with charts and evidence."
+  }
 }

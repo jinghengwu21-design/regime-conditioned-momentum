@@ -122,7 +122,7 @@ npm --prefix web run build
 
 `python scripts/build_terminal.py` 从原始数据重建四个研究区间与五组实验记录。浏览器成本引擎在所有区间的 5 / 8 / 12 bps 情景中与 Python 对照。
 
-[验证记录](docs/VERIFICATION.md) · [架构决策](docs/DECISIONS.md) · [贡献指南](CONTRIBUTING.md)
+[验证记录](docs/VERIFICATION.md) · [工程案例](docs/ENGINEERING.md) · [架构决策](docs/DECISIONS.md) · [贡献指南](CONTRIBUTING.md)
 
 ```text
 web/                  React + TypeScript + ECharts terminal

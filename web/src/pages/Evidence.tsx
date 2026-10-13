@@ -38,7 +38,7 @@ export default function Evidence({ data }: { data: Terminal }) {
         </div>
       </div>
       <div className="two-columns evidence-columns">
-        <Panel title="数据文件" subtitle="每次载入验证 SHA-256 · 可独立复现">
+        <Panel title="数据文件" subtitle="来源文件 SHA-256 · 可独立复现">
           <div className="file-list">
             {Object.entries(data.manifest.files).map(([name, meta]) => (
               <div key={name}>
@@ -84,6 +84,14 @@ export default function Evidence({ data }: { data: Terminal }) {
               className="text-link"
             >
               Data card <ArrowUpRight size={13} />
+            </a>
+          </div>
+          <div className="panel-bottom">
+            <a href={ASSET + "result.json"} download className="text-link">
+              报告运行结果 <ArrowDownToLine size={13} />
+            </a>
+            <a href={ASSET + "trace.jsonl"} download className="text-link">
+              完整调用轨迹 <ArrowDownToLine size={13} />
             </a>
           </div>
         </Panel>

@@ -36,10 +36,10 @@ def main():
         run_dir = Path(result.pop("local_run_dir"))
         experiments[scenario] = result
         if scenario == "normal":
-            shutil.copy2(run_dir / "report.html", target / "report.html")
-            shutil.copy2(run_dir / "report.md", target / "report.md")
+            for name in ["report.html", "report.md", "result.json", "trace.jsonl", "request.json", "context.json", "draft.original.json"]:
+                shutil.copy2(run_dir / name, target / name)
     (target / "experiments.json").write_text(json.dumps(experiments, ensure_ascii=False, allow_nan=False, separators=(",", ":")), encoding="utf-8")
-    for name in ["trades.csv", "fills.csv", "manifest.json"]:
+    for name in ["trades.csv", "fills.csv", "market_daily.csv", "reference_metrics.json", "manifest.json"]:
         shutil.copy2(ROOT / "data" / name, target / name)
     fingerprint = {p.name: {"sha256": hashlib.sha256(p.read_bytes()).hexdigest(), "bytes": p.stat().st_size}
                    for p in sorted(target.glob("*")) if p.name != "build-manifest.json"}

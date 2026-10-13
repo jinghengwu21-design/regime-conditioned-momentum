@@ -11,7 +11,9 @@ export default function Methodology() {
       <section>
         <h3>统计定义</h3>
         <p>
-          CAGR 使用原生有效回测区间整数日数与 365 日年化。Sharpe 使用 UTC
+          CAGR 按 365
+          日年化；完整历史采用原生有效区间，子区间采用所选账户窗口日数。Sharpe
+          使用 UTC
           每日账户收益、样本标准差与零无风险利率；胜率与盈利因子使用逐笔交易。
         </p>
       </section>

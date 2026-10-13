@@ -1,5 +1,5 @@
 {
-  "verified_at_utc": "2026-10-13T11:51:46.330724+00:00",
+  "verified_at_utc": "2026-10-13T11:55:46.117289+00:00",
   "python": "3.14.5",
   "virtual_environment": true,
   "dependencies": {
@@ -84,7 +84,11 @@
         "observed": "All six pages: innerWidth 390, scrollWidth 390; viewport restored after testing",
         "passed": true
       }
-    ]
+    ],
+    "public_site": {
+      "url": "https://jinghengwu21-design.github.io/sarkaz-research/",
+      "observed": "Overview, strategy, risk and Agent workspaces render; public execution is labelled recorded with no execution controls; standalone HTML report opens with charts and evidence."
+    }
   },
   "model_validation": "Real SDK with simulated HTTP contract; no live provider run included",
   "release_mode": "GitHub source, GitHub Pages snapshot and local Python runtime"

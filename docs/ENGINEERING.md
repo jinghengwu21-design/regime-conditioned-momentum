@@ -28,5 +28,6 @@ The original draft, both review events and final report remain in the execution 
 2. Move the presentation into a React terminal with shared scope, trade drilldown, browser cost attribution and separate Agent experiments. Review OpenBB, QuantStats, FinRobot and TradingAgents at the source level; record the adopted decisions in [design references](BENCHMARKS.md).
 3. Reconcile browser calculations against Python across four periods and three fees. Split workspace modules, improve font hierarchy, correct subperiod CAGR labels, and fix modal focus so search input survives rerenders.
 4. Verify real local HTTP execution, downloadable filtered data, desktop interactions and mobile document widths. Lock dependencies, preserve font licenses and publish build/test workflows with the application.
+5. Run the repository on fresh Linux and Windows workers. The Windows worker exposed a legacy-console encoding failure after the behavioral evaluation had completed; make CLI JSON explicitly UTF-8 and reproduce the failure condition in a subprocess regression test.
 
 The review artifacts and commands are listed in [Verification](VERIFICATION.md). Future changes to the calculation contract should update Python, browser fixtures and the independent review together.
